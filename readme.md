@@ -1,4 +1,4 @@
-### react-native-chat-ui
+### react-native-chat-ui<span style="color:red">(开发中)<span>
 
 #### 简介
 一款react native 的聊天UI框架，该框架只是UI层的封装,不做任何IM SDK 的集成，需要集成SDK 的可以自己集成。
