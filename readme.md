@@ -4,7 +4,7 @@
 一款react native 的聊天UI框架，该框架只是UI层的封装,不做任何IM SDK 的集成，需要集成SDK 的可以自己集成。
 
 #### 安装
-`npm install react-native-chat-ui`
+`npm install git+https://github.com/25juan/react-native-chat-ui.git --save`
 
 #### 使用方法
 ```
