@@ -59,12 +59,9 @@ export default class InputToolbar extends React.Component {
         this.actionBarHeight = 0;
     }
 
-
-    getToolbarHeight() {
-        var h = this.composerHeight + (MIN_INPUT_TOOLBAR_HEIGHT - MIN_COMPOSER_HEIGHT) + this.actionBarHeight;
-        return h;
-    }
-
+    /**
+     * 重置关闭表情选择和工具选择
+     */
     dismiss() {
         const {isEmoji, actionVisible} = this.state;
         this.setState({
@@ -82,6 +79,9 @@ export default class InputToolbar extends React.Component {
         }
     }
 
+    /**
+     * 发送点击事件
+     */
     handleSend() {
         this.props.onSend(this.state.value);
         if (this.composerHeight != MIN_COMPOSER_HEIGHT) {
@@ -91,6 +91,9 @@ export default class InputToolbar extends React.Component {
         this.setState({value: ''});
     }
 
+    /**
+     * 输入框+ 点击事件
+     */
     onActionsPress() {
         var actionVisible = this.state.actionVisible;
         if (actionVisible) {
@@ -119,6 +122,9 @@ export default class InputToolbar extends React.Component {
         ).start();
     }
 
+    /**
+     * 表情按钮点击事件
+     */
     handleEmojiOpen() {
         var isEmoji = this.state.isEmoji;
         isEmoji = !isEmoji;
@@ -145,6 +151,10 @@ export default class InputToolbar extends React.Component {
         ).start();
     }
 
+    /**
+     * 表情点击事件
+     * @param v
+     */
     handleEmojiClick(v) {
         var newValue = (this.state.value || '') + v;
         this.setState({
@@ -152,6 +162,9 @@ export default class InputToolbar extends React.Component {
         });
     }
 
+    /**
+     * 表情选择面板删除按钮点击事件
+     */
     handleEmojiCancel() {
         if (!this.state.value) return;
         const arr = spliddit(this.state.value);
@@ -164,6 +177,9 @@ export default class InputToolbar extends React.Component {
         this.value = newValue;
     }
 
+    /**
+     * 输入框获取焦点事件
+     */
     handleFocusSearch() {
         this.setState({
             isEmoji: false,
@@ -176,10 +192,17 @@ export default class InputToolbar extends React.Component {
         ).start();
     }
 
+    /**
+     * 输入框失去焦点事件
+     */
     handleBlurSearch() {
         this.setState({focused: false});
     }
 
+    /**
+     * 输入框表单内容改变事件
+     * @param v
+     */
     handleChangeText(v) {
         if (v.length > 0 && v[v.length - 1] == '\n') {
             this.props.onSend(v);
@@ -195,6 +218,9 @@ export default class InputToolbar extends React.Component {
         }
     }
 
+    /**
+     * 图片选择点击事件
+     */
     handleImagePicker() {
         this.setState({
             isEmoji: false,
@@ -203,39 +229,39 @@ export default class InputToolbar extends React.Component {
 
         this.actionBarHeight = 0;
         this.onHeightChange();
-
-
         this.props.giftedChat.handleImagePicker();
     }
 
+    /**
+     * 照相机 按钮点击事件
+     */
     handleCameraPicker() {
-
         this.setState({
             isEmoji: false,
             actionVisible: false
         });
-
         this.actionBarHeight = 0;
         this.onHeightChange();
-
-
         this.props.giftedChat.handleCameraPicker();
     }
 
+    /**
+     * 位置选择 点击事件
+     */
     handleLocationClick() {
-        console.log("locaiton click");
-
         this.setState({
             isEmoji: false,
             actionVisible: false
         });
-
         this.actionBarHeight = 0;
         this.onHeightChange();
 
         this.props.giftedChat.handleLocationClick();
     }
 
+    /**
+     * 录音按钮点击事件
+     */
     handleRecordMode() {
         const {isEmoji, actionVisible} = this.state;
         if (this.state.mode == MODE_RECORD) {
@@ -259,6 +285,12 @@ export default class InputToolbar extends React.Component {
         }
         this.setState({mode: MODE_TEXT, focused: true,});
     }
+
+    /**
+     * 渲染emoji表情
+     * @returns {XML}
+     * @private
+     */
     _renderEmoji() {
         const {isEmoji, focused} = this.state;
         const emojiStyle = [];
@@ -320,6 +352,11 @@ export default class InputToolbar extends React.Component {
         </Animated.View>
     }
 
+    /**
+     * 渲染工具栏
+     * @returns {*}
+     * @private
+     */
     _renderActions() {
         let { actionVisible } = this.state ; 
         let height = actionVisible?ACTION_BUTTON_HEIGHT:0;
@@ -367,6 +404,10 @@ export default class InputToolbar extends React.Component {
         }
     }
 
+    /**
+     * 渲染输入框
+     * @returns {XML}
+     */
     renderTextInput() {
         const {value = '', isEmoji, mode} = this.state;
         var height = this.composerHeight + (MIN_INPUT_TOOLBAR_HEIGHT - MIN_COMPOSER_HEIGHT);
@@ -483,6 +524,11 @@ export default class InputToolbar extends React.Component {
         );
     }
 
+    /**
+     * 渲染表情按钮
+     * @returns {XML}
+     * @private
+     */
     _renderEmojiButton() {
         const {isEmoji} = this.state;
         return (
@@ -499,6 +545,11 @@ export default class InputToolbar extends React.Component {
         )
     }
 
+    /**
+     * 渲染发送按钮
+     * @returns {XML}
+     * @private
+     */
     _renderSendButton() {
         const {focused, value} = this.state;
 
