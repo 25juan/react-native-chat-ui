@@ -1,17 +1,18 @@
 ### react-native-chatui
 
-####简介
+#### 简介
 一款react native 的聊天UI框架，该框架只是UI层的封装,不做任何IM SDK 的集成，需要集成SDK 的可以自己集成。
 
-####安装
+#### 安装
 `npm install react-native-chatui`
 
-####使用方法
+#### 使用方法
 ```
 import { MessageList,MessageInput } from "./react-native-chatui" ;
 ```
 
-####MessageList
+#### MessageList
+
 | 属性   | 含义   |      数据类型      |  默认值 |
 |----------|:----------|:-------------:|------:|
 | canLoadMore |是否先查看历史消息文字|  boolean | false |
@@ -31,7 +32,8 @@ import { MessageList,MessageInput } from "./react-native-chatui" ;
 | deleteMsg |删除消息|    msgid   |   null |
 
 
-####MessageInput
+#### MessageInput
+
 | 属性   | 含义   |      数据类型      |  默认值 |
 |----------|:----------|:-------------:|------:|
 | onHeightChange | 输入框高度变化的函数  |  function | ()=>{} |
