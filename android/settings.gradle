@@ -1,0 +1,3 @@
+rootProject.name = 'chat_ui'
+
+include ':app'
