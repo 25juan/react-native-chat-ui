@@ -65,6 +65,9 @@ export default class App extends Component {
     handleImagePicker =()=>{
 
     };
+    handleLocationClick = ()=>{
+
+    };
     onScroll(){
         if(this.input){// 当消息列表滚动的时候关闭表情和同居选择面板
             this.input.dismiss();
@@ -89,6 +92,7 @@ export default class App extends Component {
                               onReachedRecording={ this.onReachedRecording }
                               handleImagePicker = { this.handleImagePicker }
                               handleCameraPicker = { this.handleCameraPicker }
+                              handleLocationClick={this.handleLocationClick}
                               ref={(input)=>this.input = input}
                               onSend={ this.onSend }/>
                 <RecordMask  show={ this.state.show }

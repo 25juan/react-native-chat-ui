@@ -250,7 +250,7 @@ export default class InputToolbar extends React.Component {
         this.actionBarHeight = 0;
         this.onHeightChange();
 
-        this.props.giftedChat.handleLocationClick();
+        this.props.handleLocationClick();
     }
 
     /**
@@ -567,15 +567,18 @@ InputToolbar.propTypes = {
     startRecording:PropTypes.func.isRequired,
     handleImagePicker:PropTypes.func.isRequired,
     handleCameraPicker:PropTypes.func.isRequired,
+    handleLocationClick:PropTypes.func.isRequired,
     stopRecording:PropTypes.func.isRequired,
     onEndReachedRecording:PropTypes.func.isRequired, // 手指滑动到取消发送的距离的时候
     onReachedRecording:PropTypes.func.isRequired, //手指为滑动到取消发送的距离的时候
     onSend:PropTypes.func.isRequired, // 发送按钮点击发送消息事件
     onHeightChange:PropTypes.func.isRequired, // 输入框的高度发生变化的时候所触发的事件
+
 };
 InputToolbar.defaultProps = {
     handleImagePicker:()=>{},
     handleCameraPicker:()=>{},
+    handleLocationClick:()=>{},
     startRecording:()=>{},
     stopRecording:()=>{},
     onEndReachedRecording:()=>{}, // 手指滑动到取消发送的距离的时候
