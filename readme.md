@@ -8,7 +8,7 @@
 
 #### 配置支持 GIF
 `cmd` 进入`android`目录下,
-运行一下命令`gradlew -q app:dependencies`查看当前RN 的`com.facebook.fresco:fresco:1.3.0`依赖版本是多少
+运行一下命令`gradlew -q app:dependencies`，查看当前RN 的`com.facebook.fresco:fresco:1.3.0`依赖版本是多少，
 然后你需要在`android/app/build.gradle`文件中根据需要手动添加以下面的模块,具体的版本号要和上面的查询出来的版本号相对应
 ```java
 dependencies {
