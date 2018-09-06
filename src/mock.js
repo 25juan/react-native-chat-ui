@@ -9,8 +9,8 @@ var msg = {  // 文本
     }
 };
 
-export const mockText = (isOutgoing=true,text)=>{
-    return { ...msg,text,isOutgoing,msgType: "text",status: "send_going", } ;
+export const mockText = (isOutgoing=true,text,status= "send_going")=>{
+    return { ...msg,text,isOutgoing,msgType: "text",status, } ;
 };
 export const mockImage = (isOutgoing=true,url)=>{
     return { ...msg,isOutgoing,msgType:"image",extend:{ imageHeight:80,imageWidth:50,thumbPath:"http://app.yunsdt.com/app/images/wechat-friends.png" } } ;

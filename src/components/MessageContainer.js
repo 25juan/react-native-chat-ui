@@ -114,7 +114,7 @@ export default class MessageContainer extends React.Component {
      */
     scrollToBottom(){
         if(this.flatList){
-            setTimeout(()=>{
+            setTimeout(()=>{ //此处延迟执行是为了防止数据未渲染完成导致滚动到底失败
                 this.flatList.scrollToEnd();
             },1000);
         }

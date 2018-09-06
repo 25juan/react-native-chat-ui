@@ -50,6 +50,7 @@ export default class App extends Component {
 
     onSend = (text)=>{
         this.messageList.appendToBottom([mockText(true,text)
+            ,mockText(true,text,"send_success")
             ,mockImage()
             ,mockLocation()
             ,mockVoice()
