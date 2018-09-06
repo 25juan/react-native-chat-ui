@@ -18,8 +18,8 @@ export const mockImage = (isOutgoing=true,url)=>{
 export const mockLocation = (isOutgoing=false)=>{
     return  { ...msg,isOutgoing,title:"四川省成都市锦江区牛王庙",msgType: "location",status: "send_going", } ;
 };
-export const mockVoice = (isOutgoing=false,isRead=false)=>{
-    return  { ...msg,isOutgoing,playing:true,duration:1000,isRead,msgType: "voice",status: "send_going", } ;
+export const mockVoice = (isOutgoing=false,isRead=false,playing=false)=>{
+    return  { ...msg,isOutgoing,playing,duration:1000,isRead,msgType: "voice",status: "send_going", } ;
 };
 
 export default mockText ;

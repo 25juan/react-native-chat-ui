@@ -49,7 +49,12 @@ export default class App extends Component {
     }
 
     onSend = (text)=>{
-        this.messageList.appendToBottom([mockText(true,text),mockImage(),mockLocation(),mockVoice(),mockVoice(false,true)]);
+        this.messageList.appendToBottom([mockText(true,text)
+            ,mockImage()
+            ,mockLocation()
+            ,mockVoice()
+            ,mockVoice(false,true,true)
+            ,mockVoice(false,true)]);
         this.messageList.scrollToBottom();
     };
     onMessagePress = (message)=>{
@@ -98,7 +103,6 @@ export default class App extends Component {
                     onMessageLongPress={this.onMessageLongPress}
                     onScroll={()=>this.onScroll()}
                     canLoadMore={ true }
-
                     onPhonePress={this.onPhonePress}
                     onUrlPress = { this.onUrlPress }
                     onEmailPress = { this.onEmailPress }/>

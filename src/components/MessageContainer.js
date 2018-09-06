@@ -20,17 +20,10 @@ export default class MessageContainer extends React.Component {
         this.renderLoadEarlier = this.renderLoadEarlier.bind(this);
 
         this.state = {
-            messagesData: this.prepareMessages(props.messages || []),
+            messagesData: props.messages || [],
             refreshing:false,
         };
     }
-    prepareMessages(messages) {
-        return output = messages.reduce((o, m, i) => {
-            o.push({ ...m });
-            return o
-        }, []);
-    }
-
     shouldComponentUpdate(nextProps, nextState) {
         if (!shallowequal(this.props, nextProps)) {
             return true;
@@ -136,29 +129,33 @@ export default class MessageContainer extends React.Component {
      * 拼接一条消息到顶部
      */
     appendToTop(messages){
+        this.messages = JSON.parse(JSON.stringify([ ...messages,...this.messages ]));
         this.setState({
-            messagesData: [...this.prepareMessages(messages),...this.state.messagesData]
+            messagesData: JSON.parse(JSON.stringify(this.messages))
         });
     }
+    messages = [] ;
     /**
      * 拼接一条消息到底部
      */
     appendToBottom(messages){
+        this.messages = JSON.parse(JSON.stringify([ ...this.messages,...messages ]));
         this.setState({
-            messagesData: [...this.state.messagesData,...this.prepareMessages(messages)]
+            messagesData: JSON.parse(JSON.stringify(this.messages))
         });
     }
     /**
      * 更新一条消息的状态
      */
     updateMsg(msg){
-        let messagesData = this.state.messagesData ;
+        let messagesData = JSON.parse(JSON.stringify(this.messages)) ;
         let _list = messagesData.map((message)=>{
             if(message.id === msg.id){
                 return { ...message,...msg }
             }
             return message ;
         });
+        this.messages = messagesData ;
         this.setState({ messagesData });
     }
     /**
@@ -166,12 +163,13 @@ export default class MessageContainer extends React.Component {
      * @param {*} msgId 
      */
     deleteMsg(msgId){
-        let messagesData = this.state.messagesData ;
+        let messagesData = JSON.parse(JSON.stringify(this.messages))  ;
         let _list = messagesData.filter((message)=>{
             if(message.id !== msgId){
                 return message ;
             }
         });
+        this.messages = messagesData ;
         this.setState({ messagesData });
     }
     render() {
