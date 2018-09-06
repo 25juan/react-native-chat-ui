@@ -6,6 +6,25 @@
 #### 安装
 `npm install git+https://github.com/25juan/react-native-chat-ui.git --save`
 
+#### 配置
+默认情况下 Android 是不支持 GIF 和 WebP 格式的。你需要在`android/app/build.gradle`文件中根据需要手动添加以下模块：
+```java
+dependencies {
+  // 如果你需要支持Android4.0(API level 14)之前的版本
+  compile 'com.facebook.fresco:animated-base-support:1.9.0'
+
+  // 如果你需要支持GIF动图
+  compile 'com.facebook.fresco:animated-gif:1.9.0'
+
+  // 如果你需要支持WebP格式，包括WebP动图
+  compile 'com.facebook.fresco:animated-webp:1.9.0'
+  compile 'com.facebook.fresco:webpsupport:1.9.0'
+
+  // 如果只需要支持WebP格式而不需要动图
+  compile 'com.facebook.fresco:webpsupport:1.9.0'
+}
+```
+
 #### 使用方法
 ```
 import { MessageList,MessageInput } from "./react-native-chatui" ;
@@ -114,6 +133,7 @@ let message = {
     playing:true, // 表示消息是不是在播放中
     duration:1000, // 声音时长(单位ms)
     msgType: "voice", // 消息类型
+    isRead:false,// 表示消息未读、true 表示已读
     isOutgoing: true,//true 表示当前消息在右边渲染，false 表示当前消息渲染在左边
     fromUser: {
         _id: "", // 用户的id
