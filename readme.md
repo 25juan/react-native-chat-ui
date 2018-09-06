@@ -51,7 +51,9 @@ import { MessageList,MessageInput } from "./react-native-chatui" ;
 | handleCameraPicker | 输入框工具栏 相机 点击事件回调函数   |  function | ()=>{} |
 | handleLocationClick | 输入框工具栏 位置 点击事件回调函数   |  function | ()=>{} |
 
-
+| 方法   | 含义   |      参数      |  默认参数 |
+|----------|:----------|:-------------:|------:|
+| dismiss |关闭表情选择和工具选择|  无 | 无 |
                               
 
 
