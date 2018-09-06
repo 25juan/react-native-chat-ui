@@ -10,9 +10,6 @@ export default class MessageAudio extends React.Component {
     render() {
         let msg = this.props.currentMessage;
         let image = "";
-
-        console.log(msg)
-
         if (msg.playing) {
             image = msg.isOutgoing ? require("./Images/senderVoicePlaying.gif") :
                     require("./Images/receiverVoicePlaying.gif");
@@ -26,11 +23,10 @@ export default class MessageAudio extends React.Component {
         margin = Math.min(180, margin)+10;
         return (
             <View style={[styles.container]}>
-
                 <Image style={[styles.image,msg.isOutgoing ? {marginLeft:margin} : { marginRight:margin}]}
                        source={image}>
                 </Image>
-
+                <Text style={{color:'#666666',fontSize:12,lineHeight:25}}> {parseInt((msg.duration)/1000)}'' </Text>
             </View>
         );
     }

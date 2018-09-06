@@ -1,5 +1,5 @@
 import React,{ Component } from "react" ;
-import { View,StyleSheet,CameraRoll } from "react-native" ;
+import { View,StyleSheet,CameraRoll,Keyboard } from "react-native" ;
 import MessageList from './components/MessageContainer';
 import MessageInput from "./components/InputToolbar" ;
 import RecordMask from "./components/RecordMask" ;
@@ -43,8 +43,13 @@ export default class App extends Component {
             color:"transparent"
         });
     };
+
+    componentDidMount(){
+        this.onSend("第一条消息") ;
+    }
+
     onSend = (text)=>{
-        this.messageList.appendToBottom([mockText(true,text),mockImage(),mockLocation(),mockVoice()]);
+        this.messageList.appendToBottom([mockText(true,text),mockImage(),mockLocation(),mockVoice(),mockVoice(false,true)]);
         this.messageList.scrollToBottom();
     };
     onMessagePress = (message)=>{
@@ -68,9 +73,19 @@ export default class App extends Component {
     handleLocationClick = ()=>{
 
     };
+    onPhonePress = ()=>{
+
+    };
+    onUrlPress = ()=>{
+
+    };
+    onEmailPress = ()=>{
+
+    };
     onScroll(){
         if(this.input){// 当消息列表滚动的时候关闭表情和同居选择面板
-            this.input.dismiss();
+
+            Keyboard.dismiss();
         }
     }
     render() {
@@ -82,7 +97,11 @@ export default class App extends Component {
                     onFailPress = { this.onFailPress }
                     onMessageLongPress={this.onMessageLongPress}
                     onScroll={()=>this.onScroll()}
-                    canLoadMore={ true }/>
+                    canLoadMore={ true }
+
+                    onPhonePress={this.onPhonePress}
+                    onUrlPress = { this.onUrlPress }
+                    onEmailPress = { this.onEmailPress }/>
 
 
                 <MessageInput onHeightChange={ height=>{} }

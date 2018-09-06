@@ -51,11 +51,6 @@ export default class MessageContainer extends React.Component {
         });
     }
 
-
-    scrollTo(options) {
-        this.refs.flatListRef.scrollToOffset(options)
-    }
-
     renderRow({item,index}) {
         if (!item.msgId && item.msgId !== 0) {
             console.warn('GiftedChat: `_id` is missing for message', JSON.stringify(message));
@@ -88,9 +83,6 @@ export default class MessageContainer extends React.Component {
             <View style={{ flex: 1 }}>
                 <Message {...messageProps }/></View>);
     }
-    renderHeaderWrapper = () => {
-            return <View style={{ flex: 1}}>{this.renderLoadEarlier()}</View>;
-          }
     _keyExtractor = (item, index) => item._id+" "+index
     renderFooter() {
         if (this.props.renderFooter) {

@@ -5,9 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-
 import ParsedText from 'react-native-parsed-text';
-import Communications from 'react-native-communications';
 import PropTypes from 'prop-types';
 
 export default class MessageText extends React.Component {
@@ -19,34 +17,15 @@ export default class MessageText extends React.Component {
   }
 
   onUrlPress(url) {
-    Linking.openURL(url);
+    typeof this.props.onUrlPress === "function" && this.props.onUrlPress(url);
   }
 
   onPhonePress(phone) {
-    const options = [
-      'Text',
-      'Call',
-      'Cancel',
-    ];
-    const cancelButtonIndex = options.length - 1;
-    this.context.actionSheet().showActionSheetWithOptions({
-      options,
-      cancelButtonIndex,
-    },
-    (buttonIndex) => {
-      switch (buttonIndex) {
-        case 0:
-          Communications.phonecall(phone, true);
-          break;
-        case 1:
-          Communications.text(phone);
-          break;
-      }
-    });
+      typeof this.props.onPhonePress === "function" && this.props.onPhonePress(phone);
   }
 
   onEmailPress(email) {
-    Communications.email(email, null, null, null, null);
+      typeof this.props.onEmailPress === "function" && this.props.onEmailPress(email);
   }
 
   render() {
@@ -104,7 +83,7 @@ const styles = {
 };
 
 MessageText.contextTypes = {
-  actionSheet: PropTypes.func,
+
 };
 
 MessageText.defaultProps = {

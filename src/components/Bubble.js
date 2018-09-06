@@ -48,9 +48,9 @@ export default class Bubble extends React.Component {
 
     renderMessageAudio() {
         if (this.props.currentMessage.msgType === 'voice') {
-            console.log(this.props.currentMessage);
             return <MessageAudio {...this.props}/>;
         }
+        return null ;
     }
 
     renderMessageLocation() {
@@ -109,27 +109,17 @@ export default class Bubble extends React.Component {
         if (!msg.isOutgoing && msg.msgType === 'voice') { // 对方发送的消息
             if (!msg.isRead) { // 表示消息未读
                 return (
-                    <Fragment>
-                        <View style={{marginLeft:4,flexDirection:"row" ,justifyContent:"flex-end"}}>
-                            { this.renderAudoDuration() }
-                            <View style={{
-                                backgroundColor:"red",
-                                width:8,
-                                height:8,
-                                borderRadius:90}}/>
-                        </View>
-                    </Fragment>
+                    <View style={{marginLeft:4, justifyContent:"center"}}>
+                        <View style={{
+                            backgroundColor:"red",
+                            width:8,
+                            height:8,
+                            borderRadius:90}}/>
+                    </View>
 
                 );
-            } else { // 消息已读
-                return (
-                    <View style={{marginLeft:4, justifyContent:"flex-end"}}>
-                        <Text style={{color:"lightgrey"}}>
-                            { this.renderAudoDuration() }
-                        </Text>
-                    </View>
-                );                
             }
+            return null ;
         }
 
         if (msg.isOutgoing && msg.msgType === "voice") {
@@ -152,7 +142,7 @@ export default class Bubble extends React.Component {
                     onPress={this.onPress}
                     {...this.props.touchableProps}
                 >
-                    <View ref={component => this._root = component}>
+                    <View>
                         {this.renderMessageImage()}
                         {this.renderMessageText()}
                         {this.renderMessageAudio()}
@@ -168,7 +158,7 @@ export default class Bubble extends React.Component {
                 onPress={this.onPress}
                 {...this.props.touchableProps}
             >
-                <View ref={component => this._root = component}>
+                <View>
                     {this.renderMessageImage()}
                     {this.renderMessageText()}
                     {this.renderMessageAudio()}
@@ -187,15 +177,6 @@ export default class Bubble extends React.Component {
                 {this.renderFlags()}
             </View>
         );        
-    }
-    renderAudoDuration(){
-        const msg = this.props.currentMessage;
-        if (msg.msgType === 'voice') {
-            return (
-                <Text style={{color:'#666666',fontSize:12,lineHeight:25}}> {parseInt((msg.duration)/1000)}'' </Text>
-            );
-
-        }
     }
     renderRight() {
         return (
@@ -252,12 +233,12 @@ const styles = {
             marginRight: 60,
             flexDirection:"row",
             justifyContent:"flex-start",
-            backgroundColor: '#e7e7e7',
         },
         wrapper: {
             borderRadius: 5,
             minHeight: 20,
             justifyContent: 'flex-end',
+            backgroundColor: '#e7e7e7',
         },
         containerToNext: {
             borderBottomLeftRadius: 3,
@@ -289,7 +270,7 @@ const styles = {
 };
 
 Bubble.contextTypes = {
-    actionSheet: PropTypes.func,
+
 };
 
 Bubble.defaultProps = {
