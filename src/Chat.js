@@ -55,7 +55,6 @@ export default class App extends Component {
             ,mockVoice()
             ,mockVoice(false,true,true)
             ,mockVoice(false,true)]);
-        this.messageList.scrollToBottom();
     };
     onMessagePress = (message)=>{
         alert(message.msgType+"")

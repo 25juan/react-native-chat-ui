@@ -114,7 +114,9 @@ export default class MessageContainer extends React.Component {
      */
     scrollToBottom(){
         if(this.flatList){
-            this.flatList.scrollToEnd();
+            setTimeout(()=>{
+                this.flatList.scrollToEnd();
+            },1000);
         }
     }
     /**
@@ -142,6 +144,8 @@ export default class MessageContainer extends React.Component {
         this.messages = JSON.parse(JSON.stringify([ ...this.messages,...messages ]));
         this.setState({
             messagesData: JSON.parse(JSON.stringify(this.messages))
+        },()=>{
+            this.scrollToBottom();
         });
     }
     /**
@@ -177,9 +181,10 @@ export default class MessageContainer extends React.Component {
             <View style={{flex:1}}>
                 <FlatList
                     enableEmptySections={true}
-                    keyboardShouldPersistTaps="always"
+                    keyboardShouldPersistTaps="never"
+                    keyboardDismissMode={"on-drag"}
                     automaticallyAdjustContentInsets={false}
-                    ref={ (flatList)=>this.flatList }
+                    ref={ (flatList)=>this.flatList=  flatList  }
                     keyExtractor={this._keyExtractor}
                     data={this.state.messagesData}
                     renderItem={this.renderRow}
