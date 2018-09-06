@@ -1,26 +1,20 @@
 import React from 'react';
 import {
-    StyleSheet,
     View,
     Platform,
     Text,
     Dimensions,
     TextInput,
     Image,
-    ActivityIndicator,
-    Keyboard,
-    LayoutAnimation,
     TouchableOpacity,
-    TouchableWithoutFeedback,
     Animated,
-    TouchableHighlight,
     ScrollView
 } from 'react-native';
 import Emoji from 'react-native-emoji'
-import Styles from './Styles/MessageScreenStyle'
-var spliddit = require('spliddit');
+import Styles from './Styles/MessageScreenStyle';
+import PropTypes from "prop-types" ;
+import spliddit from "../utils/spliddit" ;
 var emoji = require("./emoji");
-
 const MODE_TEXT = "mode_text"; // 文本输入模式
 const MODE_RECORD = "mode_record"; // 录音模式
 const MODE_ACTION = "mode_action"; //显示相册，照相、位置的模式
@@ -229,7 +223,7 @@ export default class InputToolbar extends React.Component {
 
         this.actionBarHeight = 0;
         this.onHeightChange();
-        this.props.giftedChat.handleImagePicker();
+        this.props.handleImagePicker();
     }
 
     /**
@@ -242,7 +236,7 @@ export default class InputToolbar extends React.Component {
         });
         this.actionBarHeight = 0;
         this.onHeightChange();
-        this.props.giftedChat.handleCameraPicker();
+        this.props.handleCameraPicker();
     }
 
     /**
@@ -320,10 +314,10 @@ export default class InputToolbar extends React.Component {
                     <View style={Styles.slideRow}>
                         {emojis.slice(1 * rowIconNum, rowIconNum * 2)}
                     </View>
-                    <View style={Styles.slideRow}>
+                    <View style={[Styles.slideRow]}>
                         {emojis.slice(2 * rowIconNum, rowIconNum * 3 - 1)}
                         <TouchableOpacity onPress={this.handleEmojiCancel.bind(this)}>
-                            <Image style={{height:20,width:20}} source={require("./Images/backspace.png")}/>
+                            <Image style={{height:35,width:40}} source={require("./Images/backspace.png")}/>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -334,10 +328,10 @@ export default class InputToolbar extends React.Component {
                     <View style={Styles.slideRow}>
                         {emojis.slice(4 * rowIconNum - 1, rowIconNum * 5 - 1)}
                     </View>
-                    <View style={Styles.slideRow}>
+                    <View style={[Styles.slideRow]}>
                         {emojis.slice(5 * rowIconNum - 1, rowIconNum * 6 - 1)}
                         <TouchableOpacity onPress={this.handleEmojiCancel.bind(this)}>
-                            <Image style={{height:20,width:20}} source={require("./Images/backspace.png")}/>
+                            <Image style={{height:35,width:40}}  source={require("./Images/backspace.png")}/>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -409,7 +403,7 @@ export default class InputToolbar extends React.Component {
      * @returns {XML}
      */
     renderTextInput() {
-        const {value = '', isEmoji, mode} = this.state;
+        const {value = '' } = this.state;
         var height = this.composerHeight + (MIN_INPUT_TOOLBAR_HEIGHT - MIN_COMPOSER_HEIGHT);
         return (
             <View style={[Styles.inputRow, {height:height}]}>
@@ -451,34 +445,26 @@ export default class InputToolbar extends React.Component {
     }
 
     renderReocrdInput() {
-        const {value = '', isEmoji, mode, opacity} = this.state;
         var height = this.composerHeight + (MIN_INPUT_TOOLBAR_HEIGHT - MIN_COMPOSER_HEIGHT);
-        //android bug: https://github.com/facebook/react-native/issues/7221
         var responder = {
             onStartShouldSetResponder: (evt) => true,
             onMoveShouldSetResponder: (evt) => true,
             onResponderGrant: (evt) => {
                 this.setState({opacity: "#c9c9c9"});
-                this.props.giftedChat.setRecording(true);
-                this.props.giftedChat.setRecordingText("手指上滑, 取消发送");
-                this.props.giftedChat.setRecordingColor("transparent");
-                this.props.giftedChat.startRecording();
+                this.props.startRecording();
             },
             onResponderReject: (evt) => {
             },
             onResponderMove: (evt) => {
                 if (evt.nativeEvent.locationY < 0 ||
                     evt.nativeEvent.pageY < this.recordPageY) {
-                    this.props.giftedChat.setRecordingText("松开手指, 取消发送");
-                    this.props.giftedChat.setRecordingColor("red");
+                    this.props.onEndReachedRecording();
                 } else {
-                    this.props.giftedChat.setRecordingText("手指上滑, 取消发送");
-                    this.props.giftedChat.setRecordingColor("transparent");
+                    this.props.onReachedRecording();
                 }
             },
             onResponderRelease: (evt) => {
                 this.setState({opacity: "#fff"});
-                this.props.giftedChat.setRecording(false);
                 var canceled;
                 if (evt.nativeEvent.locationY < 0 ||
                     evt.nativeEvent.pageY < this.recordPageY) {
@@ -486,7 +472,7 @@ export default class InputToolbar extends React.Component {
                 } else {
                     canceled = false;
                 }
-                this.props.giftedChat.stopRecording(canceled);
+                this.props.stopRecording(canceled);
             },
             onResponderTerminationRequest: (evt) => true,
             onResponderTerminate: (evt) => {
@@ -512,9 +498,7 @@ export default class InputToolbar extends React.Component {
                         backgroundColor:this.state.opacity,
                         borderWidth:1,borderColor:'#f2f2f2'
                         }}
-                        onLayout={this.handleLayout.bind(this)}
-
-                    >
+                        onLayout={this.handleLayout.bind(this)}>
                         <Text>按住 说话</Text>
                     </View>
                 </View>
@@ -569,7 +553,7 @@ export default class InputToolbar extends React.Component {
 
 
     render() {
-        const {value = '', isEmoji, mode} = this.state;
+        const {　isEmoji, mode　} = this.state;
         return (
             <View style={Styles.search}>
                 {mode == MODE_TEXT ? this.renderTextInput() : this.renderReocrdInput()}
@@ -579,5 +563,24 @@ export default class InputToolbar extends React.Component {
         )
     }
 }
-
+InputToolbar.propTypes = {
+    startRecording:PropTypes.func.isRequired,
+    handleImagePicker:PropTypes.func.isRequired,
+    handleCameraPicker:PropTypes.func.isRequired,
+    stopRecording:PropTypes.func.isRequired,
+    onEndReachedRecording:PropTypes.func.isRequired, // 手指滑动到取消发送的距离的时候
+    onReachedRecording:PropTypes.func.isRequired, //手指为滑动到取消发送的距离的时候
+    onSend:PropTypes.func.isRequired, // 发送按钮点击发送消息事件
+    onHeightChange:PropTypes.func.isRequired, // 输入框的高度发生变化的时候所触发的事件
+};
+InputToolbar.defaultProps = {
+    handleImagePicker:()=>{},
+    handleCameraPicker:()=>{},
+    startRecording:()=>{},
+    stopRecording:()=>{},
+    onEndReachedRecording:()=>{}, // 手指滑动到取消发送的距离的时候
+    onReachedRecording:()=>{},//手指为滑动到取消发送的距离的时候
+    onSend:()=>{},
+    onHeightChange:()=>{}
+};
 

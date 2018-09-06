@@ -8,15 +8,10 @@ import {
 
 export default class MessageAudio extends React.Component {
     render() {
-
         let msg = this.props.currentMessage;
-        //var playing;
-        //if (msg.playing == undefined) {
-        //    playing = 0;
-        //} else {
-        //    playing = msg.playing;
-        //}
         let image = "";
+
+        console.log(msg)
 
         if (msg.playing) {
             image = msg.isOutgoing ? require("./Images/senderVoicePlaying.gif") :
@@ -27,7 +22,7 @@ export default class MessageAudio extends React.Component {
         }
 
         //max 180
-        var margin = (parseFloat(msg.extend.duration)/1000)*3;
+        var margin = (parseFloat(msg.duration)/1000)*3;
         margin = Math.min(180, margin)+10;
         return (
             <View style={[styles.container]}>

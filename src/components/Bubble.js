@@ -1,6 +1,6 @@
-import React from 'react';
+import React,{ Fragment } from 'react';
 import {
-    Clipboard,
+    ActivityIndicator,
     StyleSheet,
     TouchableWithoutFeedback,
     TouchableNativeFeedback,
@@ -15,27 +15,13 @@ import MessageAudio from './MessageAudio';
 import MessageLocation from './MessageLocation';
 import Time from './Time';
 
-import {MESSAGE_FLAG_FAILURE, MESSAGE_FLAG_LISTENED} from './IMessage';
+
 import PropTypes from 'prop-types';
 export default class Bubble extends React.Component {
     constructor(props) {
         super(props);
         this.onLongPress = this.onLongPress.bind(this);
         this.onPress = this.onPress.bind(this);
-    }
-
-    handleBubbleToNext() {
-        if (this.props.isSameUser(this.props.currentMessage, this.props.nextMessage) && this.props.isSameDay(this.props.currentMessage, this.props.nextMessage)) {
-            return StyleSheet.flatten([styles[this.props.position].containerToNext, this.props.containerToNextStyle[this.props.position]]);
-        }
-        return null;
-    }
-
-    handleBubbleToPrevious() {
-        if (this.props.isSameUser(this.props.currentMessage, this.props.previousMessage) && this.props.isSameDay(this.props.currentMessage, this.props.previousMessage)) {
-            return StyleSheet.flatten([styles[this.props.position].containerToPrevious, this.props.containerToPreviousStyle[this.props.position]]);
-        }
-        return null;
     }
 
     renderMessageText() {
@@ -62,14 +48,13 @@ export default class Bubble extends React.Component {
 
     renderMessageAudio() {
         if (this.props.currentMessage.msgType === 'voice') {
-            console.log("render message auido");
+            console.log(this.props.currentMessage);
             return <MessageAudio {...this.props}/>;
         }
     }
 
     renderMessageLocation() {
         if (this.props.currentMessage.msgType === 'location') {
-            console.log("render message location");
             return <MessageLocation {...this.props}/>;
         }
     }
@@ -87,16 +72,7 @@ export default class Bubble extends React.Component {
 
     onLongPress() {
         if (this.props.onMessageLongPress) {
-            this._root.measureInWindow((x, y, width, height) => {
-                this.props.onMessageLongPress({
-                    x:x,
-                    y:y,
-                    width:width,
-                    height:height
-                },this.props.currentMessage);
-
-            })
-
+            this.props.onMessageLongPress(this.props.currentMessage);
         }
     }
 
@@ -108,37 +84,48 @@ export default class Bubble extends React.Component {
 
     //发送失败标志
     renderFlags() {
+        let onFailPress = this.props.onFailPress  ;
         const msg = this.props.currentMessage;
-        if ( this.props.currentMessage.isOutgoing ) {
-            if (msg.status === 'send_failed') {
-                return (
-                    <Image style={{alignSelf:"flex-end", width:20, height:20}}
+        if ( this.props.currentMessage.isOutgoing ) { // 自己发送的消息
+            if (msg.status === 'send_failed') { // 消息发送失败
+                return Platform.OS === 'android'?(
+                    <TouchableNativeFeedback onPress={()=>{ onFailPress(msg); }}>
+                        <Image style={{alignSelf:"flex-end", width:20, height:20}}
+                               source={require('./Images/MessageSendError.png')}>
+                        </Image>
+                    </TouchableNativeFeedback>
+                ):(<TouchableWithoutFeedback onPress={()=>onFailPress(msg)}>
+                    <Image style={{alignSelf:"flex-end", width:30, height:30}}
                            source={require('./Images/MessageSendError.png')}>
                     </Image>
-                );
+                </TouchableWithoutFeedback>);
+            }else if(msg.status === 'send_going'){
+                return <ActivityIndicator color={"#47baa6"} size={"small"}/> ;
+            }else {
+                return null ;
             }
         }
 
-        if (!msg.isOutgoing && msg.msgType === 'voice') {
-            if (!(msg.flags & MESSAGE_FLAG_LISTENED)) {
+        if (!msg.isOutgoing && msg.msgType === 'voice') { // 对方发送的消息
+            if (!msg.isRead) { // 表示消息未读
                 return (
-                    <View style={{marginLeft:4, justifyContent:"space-between"}}>
-                        
-                        <View style={{backgroundColor:"red",
-                                      width:8,
-                                      height:8,
-                                      borderRadius:90}}/>
+                    <Fragment>
+                        <View style={{marginLeft:4,flexDirection:"row" ,justifyContent:"flex-end"}}>
+                            { this.renderAudoDuration() }
+                            <View style={{
+                                backgroundColor:"red",
+                                width:8,
+                                height:8,
+                                borderRadius:90}}/>
+                        </View>
+                    </Fragment>
 
-                        <Text style={{color:"lightgrey"}}>
-                            {"" + msg.extend.duration + "''"}
-                        </Text>
-                    </View>
                 );
-            } else {
+            } else { // 消息已读
                 return (
                     <View style={{marginLeft:4, justifyContent:"flex-end"}}>
                         <Text style={{color:"lightgrey"}}>
-                            {"" + msg.extend.duration + "''"}
+                            { this.renderAudoDuration() }
                         </Text>
                     </View>
                 );                
@@ -149,17 +136,18 @@ export default class Bubble extends React.Component {
             return (
                 <View style={{marginRight:4, justifyContent:"flex-end"}}>
                     <Text style={{color:"lightgrey"}}>
-                        {"" + msg.extend.duration + "''"}
+                        {"" + msg.duration + "''"}
                     </Text>
                 </View>
             );                
         }
+
     }
     _renderContent(){
         if(Platform.OS === 'android'){
             return (
                 <TouchableNativeFeedback
-                    delayLongPress={2000}
+                    delayLongPress={1000}
                     onLongPress={this.onLongPress}
                     onPress={this.onPress}
                     {...this.props.touchableProps}
@@ -196,7 +184,6 @@ export default class Bubble extends React.Component {
                 <View style={[styles['left'].wrapper, this.props.wrapperStyle['left']]}>
                     {this._renderContent()}
                 </View>
-
                 {this.renderFlags()}
             </View>
         );        
@@ -205,7 +192,7 @@ export default class Bubble extends React.Component {
         const msg = this.props.currentMessage;
         if (msg.msgType === 'voice') {
             return (
-                <Text style={{color:'#666666',fontSize:12,lineHeight:25}}> {parseInt((msg.extend.duration)/1000)}'' </Text>
+                <Text style={{color:'#666666',fontSize:12,lineHeight:25}}> {parseInt((msg.duration)/1000)}'' </Text>
             );
 
         }
@@ -265,10 +252,10 @@ const styles = {
             marginRight: 60,
             flexDirection:"row",
             justifyContent:"flex-start",
+            backgroundColor: '#e7e7e7',
         },
         wrapper: {
             borderRadius: 5,
-            backgroundColor: '#f0f0f0',
             minHeight: 20,
             justifyContent: 'flex-end',
         },
@@ -307,12 +294,10 @@ Bubble.contextTypes = {
 
 Bubble.defaultProps = {
     touchableProps: {},
-    onLongPress: null,
     renderMessageImage: null,
     renderMessageText: null,
     renderCustomView: null,
     renderTime: null,
-    isSameUser: () => {},
     isSameDay: () => {},
     position: 'left',
     currentMessage: {
@@ -324,13 +309,10 @@ Bubble.defaultProps = {
     previousMessage: {},
     containerStyle: {},
     wrapperStyle: {},
-    containerToNextStyle: {},
-    containerToPreviousStyle: {},
 };
 
 Bubble.propTypes = {
     touchableProps: PropTypes.object,
-    onLongPress: PropTypes.func,
     renderMessageImage: PropTypes.func,
     renderMessageText: PropTypes.func,
     renderCustomView: PropTypes.func,
@@ -346,14 +328,6 @@ Bubble.propTypes = {
         right: View.propTypes.style,
     }),
     wrapperStyle: PropTypes.shape({
-        left: View.propTypes.style,
-        right: View.propTypes.style,
-    }),
-    containerToNextStyle: PropTypes.shape({
-        left: View.propTypes.style,
-        right: View.propTypes.style,
-    }),
-    containerToPreviousStyle: PropTypes.shape({
         left: View.propTypes.style,
         right: View.propTypes.style,
     }),

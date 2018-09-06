@@ -2,29 +2,25 @@ import React from 'react';
 import {
     Image,
     View,
-    Linking,
-    Platform,
     StyleSheet,
-    TouchableOpacity,
     Text
 } from 'react-native';
-
-//import MapView from 'react-native-maps';
-//import AMap from 'react-native-smart-amap';
 export default class MessageLocation extends React.Component {
     render() {
-        const {locationObj} = this.props.currentMessage;
+        const { title } = this.props.currentMessage;
+
         return (
             <View style={styles.container}>
                 <View style={styles.title}>
                     <Text
                         style={{color:'#666666',fontSize:12}}
                         numberOfLines={2}>
-                        {locationObj.title}
+                        {title}
                     </Text>
                 </View>
 
                 <Image  style={styles.mapView}
+                        resizeMode={"contain"}
                         source={require("./Images/location.png")}>
 
                 </Image>
@@ -35,10 +31,12 @@ export default class MessageLocation extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: 200
+        width: 200,
     },
     title:{
-        backgroundColor:'#fff',flex:1,padding:5,
+        backgroundColor:'transparent',
+        flex:1,
+        padding:5,
         borderTopRightRadius:5,
         borderTopLeftRadius:5
     },

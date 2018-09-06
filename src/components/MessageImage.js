@@ -12,8 +12,9 @@ export default class MessageImage extends React.Component {
     return (
       <View style={[styles.container, this.props.containerStyle]}>
         <Image
+            resizeMode={"contain"}
           style={[styles.image, this.props.imageStyle,{width:150,height:150*(imageHeight/imageWidth)}]}
-          source={{uri: Platform.OS === 'android' ? "file://"+extend.thumbPath : extend.thumbPath}}
+          source={{uri: extend.thumbPath}}
         />
       </View>
     );

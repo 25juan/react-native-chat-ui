@@ -11,6 +11,7 @@ import {
   View
 } from 'react-native';
 import { MessageList,MessageInput } from "./src" ;
+import Chat from "./src/Chat" ;
 
 const mock = ()=>{
   let  list = [] ;
@@ -26,7 +27,7 @@ const mock = ()=>{
         name: "sgellar",
         avatar: "http://app.yunsdt.com/app/images/wechat-friends.png" // 这里只能http 路径
       }
-   })
+   });
   }
   return list ;
 }
@@ -36,13 +37,14 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <MessageList
-          canLoadMore={ true }
-          messages={[]}/>
+        {/*<MessageList*/}
+          {/*canLoadMore={ true }*/}
+          {/*messages={[]}/>*/}
 
-        <MessageInput onHeightChange={ height=>{} }
-                      onSend={ text=>{ console.log(text) } }
-        />
+        {/*<MessageInput onHeightChange={ height=>{} }*/}
+                      {/*onSend={ text=>{ console.log(text) } }*/}
+        {/*/>*/}
+        <Chat/>
 
       </View>
     );

@@ -20,17 +20,15 @@ export default class MessageContainer extends React.Component {
         this.renderLoadEarlier = this.renderLoadEarlier.bind(this);
 
         this.state = {
-            messagesData: this.prepareMessages(props.messages),
+            messagesData: this.prepareMessages(props.messages || []),
             refreshing:false,
         };
     }
     prepareMessages(messages) {
         return output = messages.reduce((o, m, i) => {
-            o.push({
-                ...m
-            })
+            o.push({ ...m });
             return o
-        }, [])
+        }, []);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -77,7 +75,10 @@ export default class MessageContainer extends React.Component {
             currentMessage: item,
             position: position,
             isShowIncomingDisplayName:this.props.isShowIncomingDisplayName,
-            isShowOutgoingDisplayName:this.props.isShowOutgoingDisplayName
+            isShowOutgoingDisplayName:this.props.isShowOutgoingDisplayName,
+            onMessagePress:this.props.onMessagePress,
+            onMessageLongPress:this.props.onMessageLongPress,
+            onFailPress:this.props.onFailPress,
         };
 
         if (this.props.renderMessage) {
@@ -85,7 +86,7 @@ export default class MessageContainer extends React.Component {
         }
         return (
             <View style={{ flex: 1 }}>
-                <Message {...messageProps}/></View>);
+                <Message {...messageProps }/></View>);
     }
     renderHeaderWrapper = () => {
             return <View style={{ flex: 1}}>{this.renderLoadEarlier()}</View>;
@@ -193,8 +194,8 @@ export default class MessageContainer extends React.Component {
                     data={this.state.messagesData}
                     renderItem={this.renderRow}
                     ListHeaderComponent={this.renderLoadEarlier}
-                    {...this.props.invertibleScrollViewProps}
                     onRefresh={this.refresh}
+                    onScroll={this.props.onScroll()}
                     refreshing = { this.state.refreshing }
                 />
             </View>
@@ -206,7 +207,11 @@ MessageContainer.defaultProps = {
     messages: [],
     renderMessage: null,
     isShowIncomingDisplayName:true,
-    isShowOutgoingDisplayName:false
+    isShowOutgoingDisplayName:false,
+    onFailPress:()=>{ },
+    onMessagePress:()=>{ },
+    onMessageLongPress:()=>{ },
+    onScroll:()=>{}
 };
 
 MessageContainer.propTypes = {
@@ -214,4 +219,8 @@ MessageContainer.propTypes = {
     renderMessage: PropTypes.func,
     isShowIncomingDisplayName:PropTypes.bool,
     isShowOutgoingDisplayName:PropTypes.bool,
+    onFailPress:PropTypes.func,
+    onMessagePress:PropTypes.func,
+    onMessageLongPress:PropTypes.func,
+    onScroll:PropTypes.func,
 };
