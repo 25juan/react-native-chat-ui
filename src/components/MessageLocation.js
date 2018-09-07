@@ -8,12 +8,12 @@ import {
 export default class MessageLocation extends React.Component {
     render() {
         const { title } = this.props.currentMessage;
-
+        let position = this.props.position ;
         return (
             <View style={styles.container}>
                 <View style={styles.title}>
                     <Text
-                        style={{color:'#666666',fontSize:12}}
+                        style={{...fontColor[position],fontSize:12}}
                         numberOfLines={2}>
                         {title}
                     </Text>
@@ -28,7 +28,14 @@ export default class MessageLocation extends React.Component {
         );
     }
 }
-
+let fontColor = {
+    left:{
+        color:"#666666"
+    },
+    right:{
+        color:"#fff"
+    },
+};
 const styles = StyleSheet.create({
     container: {
         width: 200,

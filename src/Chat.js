@@ -21,13 +21,26 @@ export default class App extends Component {
         console.log("start recording...")
 
     };
-    stopRecording = ()=>{
+    stopRecording = (caceled)=>{
         this.setState({
             show:false,
             text:"",
             color:""
         });
-        console.log("stop recording...")
+        if (caceled){
+            return ;
+        }
+        let sendMsg = mockVoice(true) ;
+        let receiveMsg = mockVoice(false) ;
+        this.messageList.appendToBottom([sendMsg]);
+        setTimeout(()=>{
+            this.messageList.appendToBottom([receiveMsg]);
+        },800);
+        setTimeout(()=>{
+            sendMsg.status = "send_success" ;
+            this.messageList.updateMsg(sendMsg);
+        },600);
+
     };
     onEndReachedRecording = ()=>{
         this.setState({
@@ -49,16 +62,29 @@ export default class App extends Component {
     }
 
     onSend = (text)=>{
-        this.messageList.appendToBottom([mockText(true,text)
-            ,mockText(true,text,"send_success")
-            ,mockImage()
-            ,mockLocation()
-            ,mockVoice()
-            ,mockVoice(false,true,true)
-            ,mockVoice(false,true)]);
+        let sendMsg = mockText(true,text,"send_going") ;
+        let receiveMsg = mockText(false,text) ;
+        this.messageList.appendToBottom([sendMsg]);
+        setTimeout(()=>{
+            this.messageList.appendToBottom([receiveMsg]);
+        },800);
+        setTimeout(()=>{
+            sendMsg.status = "send_success" ;
+            this.messageList.updateMsg(sendMsg);
+        },600);
     };
     onMessagePress = (message)=>{
-        alert(message.msgType+"")
+        if(message.msgType=== "voice"){
+            message.playing = true ;
+            message.isRead = true ;
+            this.messageList.updateMsg(message);
+            setTimeout(()=>{
+                message.playing = false ;
+                this.messageList.updateMsg(message);
+            },1000);
+            return ;
+        }
+        alert(message.msgType+"");
         console.log("message press....",message)
     };
     onMessageLongPress = (message)=>{
@@ -66,17 +92,35 @@ export default class App extends Component {
         console.log("message long press....",message)
     };
     handleCameraPicker =()=>{
-
+        this.handleImagePicker();
     };
     onFailPress = (message)=>{
         console.log("fail...")
         alert("fail messgae id"+message.msgType);
     };
     handleImagePicker =()=>{
-
+        let sendMsg = mockImage(true,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536298415755&di=3979575fd677e35442398fa90233c586&imgtype=0&src=http%3A%2F%2Fs4.sinaimg.cn%2Fmw690%2F001sB7zxzy74flKL4FJb3%26690") ;
+        let receiveMsg = mockImage(false,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536298415755&di=3979575fd677e35442398fa90233c586&imgtype=0&src=http%3A%2F%2Fs4.sinaimg.cn%2Fmw690%2F001sB7zxzy74flKL4FJb3%26690") ;
+        this.messageList.appendToBottom([sendMsg]);
+        setTimeout(()=>{
+            this.messageList.appendToBottom([receiveMsg]);
+        },800);
+        setTimeout(()=>{
+            sendMsg.status = "send_success" ;
+            this.messageList.updateMsg(sendMsg);
+        },600);
     };
     handleLocationClick = ()=>{
-
+        let sendMsg = mockLocation(true) ;
+        let receiveMsg = mockLocation(false) ;
+        this.messageList.appendToBottom([sendMsg]);
+        setTimeout(()=>{
+            this.messageList.appendToBottom([receiveMsg]);
+        },800);
+        setTimeout(()=>{
+            sendMsg.status = "send_success" ;
+            this.messageList.updateMsg(sendMsg);
+        },600);
     };
     onPhonePress = ()=>{
 
@@ -89,7 +133,6 @@ export default class App extends Component {
     };
     onScroll(){
         if(this.input){// 当消息列表滚动的时候关闭表情和同居选择面板
-
             Keyboard.dismiss();
         }
     }
@@ -102,6 +145,7 @@ export default class App extends Component {
                     onFailPress = { this.onFailPress }
                     onMessageLongPress={this.onMessageLongPress}
                     onScroll={()=>this.onScroll()}
+                    isShowOutgoingDisplayName={true}
                     canLoadMore={ true }
                     onPhonePress={this.onPhonePress}
                     onUrlPress = { this.onUrlPress }

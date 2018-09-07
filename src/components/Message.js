@@ -126,8 +126,6 @@ Message.defaultProps = {
     renderDay: null,
     position: 'left',
     currentMessage: {},
-    nextMessage: {},
-    previousMessage: {},
     user: {},
     containerStyle: {},
 };

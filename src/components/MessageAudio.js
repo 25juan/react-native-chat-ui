@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ Fragment } from 'react';
 import {
     StyleSheet,
     Image,
@@ -8,6 +8,7 @@ import {
 
 export default class MessageAudio extends React.Component {
     render() {
+
         let msg = this.props.currentMessage;
         let image = "";
         if (msg.playing) {
@@ -23,10 +24,24 @@ export default class MessageAudio extends React.Component {
         margin = Math.min(180, margin)+10;
         return (
             <View style={[styles.container]}>
-                <Image style={[styles.image,msg.isOutgoing ? {marginLeft:margin} : { marginRight:margin}]}
-                       source={image}>
-                </Image>
-                <Text style={{color:'#666666',fontSize:12,lineHeight:25}}> {parseInt((msg.duration)/1000)}'' </Text>
+                {
+                    msg.isOutgoing?(
+                        <Fragment>
+                            <Text style={{color:'#fff',fontSize:12,lineHeight:25}}> {parseInt((msg.duration)/1000)}'' </Text>
+                            <Image style={[styles.image,msg.isOutgoing ? {marginLeft:margin} : { marginRight:margin}]}
+                                   source={image}>
+                            </Image>
+                        </Fragment>
+                    ):(
+                        <Fragment>
+                            <Image style={[styles.image,msg.isOutgoing ? {marginLeft:margin} : { marginRight:margin}]}
+                                   source={image}>
+                            </Image>
+                            <Text style={{color:'#666666',fontSize:12,lineHeight:25}}> {parseInt((msg.duration)/1000)}'' </Text>
+                        </Fragment>
+                    )
+                }
+
             </View>
         );
     }

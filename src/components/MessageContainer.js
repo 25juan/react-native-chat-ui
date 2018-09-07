@@ -46,10 +46,10 @@ export default class MessageContainer extends React.Component {
 
     renderRow({item,index}) {
         if (!item.msgId && item.msgId !== 0) {
-            console.warn('GiftedChat: `_id` is missing for message', JSON.stringify(message));
+            console.warn('GiftedChat: `_id` is missing for message', JSON.stringify(item));
         }
         if (!item.fromUser) {
-            console.warn('GiftedChat: `user` is missing for message', JSON.stringify(message));
+            console.warn('GiftedChat: `user` is missing for message', JSON.stringify(item));
             item.fromUser = {};
         }
         let position;
@@ -131,6 +131,9 @@ export default class MessageContainer extends React.Component {
      * 拼接一条消息到顶部
      */
     appendToTop(messages){
+        if(!messages){
+            return ;
+        }
         this.messages = JSON.parse(JSON.stringify([ ...messages,...this.messages ]));
         this.setState({
             messagesData: JSON.parse(JSON.stringify(this.messages))
@@ -141,6 +144,9 @@ export default class MessageContainer extends React.Component {
      * 拼接一条消息到底部
      */
     appendToBottom(messages){
+        if(!messages){
+            return ;
+        }
         this.messages = JSON.parse(JSON.stringify([ ...this.messages,...messages ]));
         this.setState({
             messagesData: JSON.parse(JSON.stringify(this.messages))
@@ -152,21 +158,28 @@ export default class MessageContainer extends React.Component {
      * 更新一条消息的状态
      */
     updateMsg(msg){
+        if(!msg){
+            return ;
+        }
         let messagesData = JSON.parse(JSON.stringify(this.messages)) ;
         let _list = messagesData.map((message)=>{
-            if(message.id === msg.id){
+
+            if(message.msgId === msg.msgId){
                 return { ...message,...msg }
             }
             return message ;
         });
-        this.messages = messagesData ;
-        this.setState({ messagesData });
+        this.messages = _list ;
+        this.setState({ messagesData:_list });
     }
     /**
      * 删除一条消息
      * @param {*} msgId 
      */
     deleteMsg(msgId){
+        if(!msgId){
+            return ;
+        }
         let messagesData = JSON.parse(JSON.stringify(this.messages))  ;
         let _list = messagesData.filter((message)=>{
             if(message.id !== msgId){

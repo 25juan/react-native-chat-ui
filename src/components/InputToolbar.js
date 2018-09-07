@@ -130,9 +130,10 @@ export default class InputToolbar extends React.Component {
             this.onHeightChange();
         } else {
             this.actionBarHeight = 0;
-            if (this.search) {
-                this.search.focus();
-            }
+            // 屏蔽关闭表情之后自动弹出键盘
+            // if (this.search) {
+            //     this.search.focus();
+            // }
         }
         this.setState({
             isEmoji: isEmoji,
