@@ -45,6 +45,11 @@ import { MessageList,MessageInput } from "./react-native-chatui" ;
 | onFailPress|消息发送失败红色感叹号点击事件 |    function   |   ()=>{} |
 | onMessageLongPress|消息长按事件 |    function   |   ()=>{} |
 | onScroll|消息列表滚动事件 |    function   |   ()=>{} |
+| onPhonePress|消息为电话号码的时候点击事件 |    function   |   ()=>{} |
+| onUrlPress|消息为url 的时候点击事件 |    function   |   ()=>{} |
+| onEmailPress|消息为电子邮件的时候点击事件 |    function   |   ()=>{} |
+
+
 
 
 
@@ -64,7 +69,7 @@ import { MessageList,MessageInput } from "./react-native-chatui" ;
 |----------|:----------|:-------------:|------:|
 | onHeightChange | 输入框高度变化的函数  |  function | ()=>{} |
 | startRecording | 开始录制语音消息回调函数  |  function | ()=>{} |
-| stopRecording | 停止录制语音消息回调函数  |  function | ()=>{} |
+| stopRecording | 停止录制语音消息回调函数  |  function | (canceled)=>{} |
 | onEndReachedRecording | 手指滑动到取消发送的距离的时候触发  |  function | ()=>{} |
 | onReachedRecording | 手指滑动时触发的回调函数  |  function | ()=>{} |
 | handleImagePicker | 输入框工具栏 图片 点击事件回调函数  |  function | ()=>{} |
