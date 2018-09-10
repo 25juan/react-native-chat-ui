@@ -104,7 +104,7 @@ export default class Chat extends Component {
                     earlierWrapperStyle = {this.props.earlierWrapperStyle}
                     onLoadMoreAsync={this.onLoadMoreAsync}
                     isLoadingEarlier = { this.props.isLoadingEarlier }
-
+                    onAvatarPress = { this.props.onAvatarPress }
                     ref={(messageList)=> this.messageList = messageList }
                     onMessagePress={this.onMessagePress}
                     onFailPress = { this.onFailPress }
@@ -165,6 +165,7 @@ Chat.propTypes = {
     renderLoadEarlier:PropTypes.func,
     onLoad :PropTypes.func,
     onHeightChange:PropTypes.func,
+    onAvatarPress:PropTypes.func,
 };
 Chat.defaultProps = {
     containerStyle:{left:{ },right:{  }},
@@ -195,6 +196,7 @@ Chat.defaultProps = {
     onFailPress:()=>{ },
     onLoad:()=>{ },
     onHeightChange:()=>{ },
+    onAvatarPress:()=>{ },
 };
 
 const styles = StyleSheet.create({

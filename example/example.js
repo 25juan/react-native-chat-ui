@@ -1,7 +1,5 @@
 import React,{ Component } from "react" ;
-import { View,StyleSheet,CameraRoll,Keyboard,Text } from "react-native" ;
 import Chat from "react-native-chat-ui" ;
-
 import { mockText,mockImage,mockLocation,mockVoice } from "./mock";
 
 export default class ChatDemo extends Component {
@@ -110,12 +108,16 @@ export default class ChatDemo extends Component {
     onLoadMoreAsync = ()=>{
         console.log("加载更多")
     };
+    onAvatarPress = (message)=>{
+        console.log(message)
+    }
     render() {
         return <Chat onLoad={(messageList,input)=>{
                         this.messageList = messageList ;
                         this.input = input ;}}
                      onSend = { this.onSend }
                      stopRecording={this.stopRecording}
+                     onAvatarPress={this.onAvatarPress}
                      onMessagePress={this.onMessagePress}
                      onMessageLongPress={this.onMessageLongPress}
                      onCameraPicker={this.onCameraPicker}

@@ -3,19 +3,38 @@ import {
   Image,
   StyleSheet,
   View,
+    Platform,
+    TouchableNativeFeedback,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 import GiftedAvatar from './GiftedAvatar';
 import PropTypes from 'prop-types';
 
 export default class Avatar extends React.Component {
+    onAvatarPress(){
+        if(typeof this.props.onAvatarPress === "function"){
+            this.props.onAvatarPress(this.props.currentMessage);
+        }
+    }
   render() {
     return (
         <View style={[styles[this.props.position].container, this.props.containerStyle[this.props.position]]}>
-            <GiftedAvatar
-                avatarStyle={StyleSheet.flatten([styles[this.props.position].image, this.props.imageStyle[this.props.position]])}
-                user={this.props.currentMessage.fromUser}
-            />
+            {
+                Platform.OS === 'android'?(
+                    <TouchableNativeFeedback onAvatarPress={ this.onAvatarPress }>
+                        <GiftedAvatar
+                            avatarStyle={StyleSheet.flatten([styles[this.props.position].image, this.props.imageStyle[this.props.position]])}
+                            user={this.props.currentMessage.fromUser}/>
+                    </TouchableNativeFeedback>
+                ):(
+                    <TouchableWithoutFeedback onAvatarPress={ this.onAvatarPress }>
+                        <GiftedAvatar
+                            avatarStyle={StyleSheet.flatten([styles[this.props.position].image, this.props.imageStyle[this.props.position]])}
+                            user={this.props.currentMessage.fromUser}/>
+                    </TouchableWithoutFeedback>
+                )
+            }
         </View>
     );
   }
