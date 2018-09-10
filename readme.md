@@ -42,7 +42,7 @@ import Chat,{ MessageList,MessageInput } from "./react-native-chatui" ;
 ```
 这里导出了`Chat`、`MessageList`、`MessageInput`，建议用Chat 组件就可以了，`MessageList`和`MessageInput`是用来自己
 深度定制的组件，Chat 组件将会继承`MessageList`、`MessageInput`的所有属性，并且会把对应的属性放到对应的组件上面。
-使用方法参照(example.js)[example/example.js]
+使用方法参照[example.js](example/example.js)
 
 #### Chat
 | 属性   | 含义   |      数据类型      |  默认值 |
