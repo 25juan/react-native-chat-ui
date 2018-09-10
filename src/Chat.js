@@ -131,9 +131,15 @@ export default class App extends Component {
     onEmailPress = ()=>{
 
     };
+    onMessageSwipe = ()=>{
+        this.dismissTools();
+    };
     onScroll(){
+
+    }
+    dismissTools(){
         if(this.input){// 当消息列表滚动的时候关闭表情和同居选择面板
-            Keyboard.dismiss();
+            this.input.dismiss();
         }
     }
     render() {
@@ -145,6 +151,7 @@ export default class App extends Component {
                     onFailPress = { this.onFailPress }
                     onMessageLongPress={this.onMessageLongPress}
                     onScroll={()=>this.onScroll()}
+                    onMessageSwipe={this.onMessageSwipe}
                     isShowOutgoingDisplayName={true}
                     canLoadMore={ true }
                     onPhonePress={this.onPhonePress}

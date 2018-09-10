@@ -2,8 +2,7 @@ import React from 'react';
 
 import {
     FlatList,
-    View,
-    Platform
+    View
 } from 'react-native';
 
 import shallowequal from '../utils/showEqual';
@@ -23,6 +22,20 @@ export default class MessageContainer extends React.Component {
             messagesData: props.messages || [],
             refreshing:false,
         };
+    }
+    componentWillMount(){
+        let response = {
+            onStartShouldSetResponder: (evt) => true,
+            onMoveShouldSetResponder: (evt) => true,
+            onResponderGrant: (evt) => { this.props.onMessageSwipe(); },
+            onResponderReject: (evt) => {},
+            onResponderMove: (evt) => {},
+            onResponderRelease: (evt) => {},
+            onResponderTerminationRequest: (evt) => true,
+            onResponderTerminate: (evt) => {
+            },
+        };
+        this.response = response ;
     }
     shouldComponentUpdate(nextProps, nextState) {
         if (!shallowequal(this.props, nextProps)) {
@@ -191,9 +204,8 @@ export default class MessageContainer extends React.Component {
     }
     render() {
         return (
-            <View style={{flex:1}}>
+            <View style={{flex:1}} { ...this.response }>
                 <FlatList
-                    enableEmptySections={true}
                     keyboardShouldPersistTaps="never"
                     keyboardDismissMode={"on-drag"}
                     automaticallyAdjustContentInsets={false}
@@ -219,7 +231,8 @@ MessageContainer.defaultProps = {
     onFailPress:()=>{ },
     onMessagePress:()=>{ },
     onMessageLongPress:()=>{ },
-    onScroll:()=>{}
+    onScroll:()=>{},
+    onMessageSwipe:()=>{}, // 当消息列表滑动的时候触发的事件
 };
 
 MessageContainer.propTypes = {
@@ -231,4 +244,5 @@ MessageContainer.propTypes = {
     onMessagePress:PropTypes.func,
     onMessageLongPress:PropTypes.func,
     onScroll:PropTypes.func,
+    onMessageSwipe:PropTypes.func,
 };

@@ -8,7 +8,8 @@ import {
     Image,
     TouchableOpacity,
     Animated,
-    ScrollView
+    ScrollView,
+    Keyboard
 } from 'react-native';
 import Emoji from 'react-native-emoji'
 import Styles from './Styles/MessageScreenStyle';
@@ -57,10 +58,13 @@ export default class InputToolbar extends React.Component {
      * 重置关闭表情选择和工具选择
      */
     dismiss() {
+
         const {isEmoji, actionVisible} = this.state;
         this.setState({
             isEmoji: false,
             actionVisible: false,
+        },()=>{
+            Keyboard.dismiss();
         });
         Animated.timing(
             this.state.actionAnim,
@@ -71,18 +75,21 @@ export default class InputToolbar extends React.Component {
             this.actionBarHeight = 0;
             this.onHeightChange();
         }
+
     }
 
     /**
      * 发送点击事件
      */
     handleSend() {
-        this.props.onSend(this.state.value);
-        if (this.composerHeight != MIN_COMPOSER_HEIGHT) {
-            this.composerHeight = MIN_COMPOSER_HEIGHT;
-            this.onHeightChange();
+        if(this.state.value){ // 判断消息是否存在
+            this.props.onSend(this.state.value);
+            if (this.composerHeight != MIN_COMPOSER_HEIGHT) {
+                this.composerHeight = MIN_COMPOSER_HEIGHT;
+                this.onHeightChange();
+            }
+            this.setState({value: ''});
         }
-        this.setState({value: ''});
     }
 
     /**
