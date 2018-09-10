@@ -142,10 +142,28 @@ export default class App extends Component {
             this.input.dismiss();
         }
     }
+    onLoadMoreAsync = ()=>{
+        console.log("load more...")
+    };
+    renderLoadEarlier = ()=>{
+
+    };
     render() {
         return (
             <View style={styles.container}>
                 <MessageList
+                    containerStyle={{
+                        left:{ backgroundColor:"red" },
+                        right:{},
+                    }}
+                    wrapperStyle={{ left:{ backgroundColor:"#000" }, right:{}, }}
+                    textStyle = {{ left:{ color:"#fff" },right:{ color:"blue"} }}
+                    earlierTextStyle = {{color:"red"}}
+                    earlierContainerStyle = {{ backgroundColor:"blue" }}
+                    earlierWrapperStyle = {{ backgroundColor:"red" }}
+                    onLoadMoreAsync={this.onLoadMoreAsync}
+                    isLoadingEarlier = { false }
+
                     ref={(messageList)=> this.messageList = messageList }
                     onMessagePress={this.onMessagePress}
                     onFailPress = { this.onFailPress }

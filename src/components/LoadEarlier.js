@@ -12,14 +12,14 @@ export default class LoadEarlier extends React.Component {
   renderLoading() {
     if (this.props.isLoadingEarlier === false) {
       return (
-        <Text style={[styles.text, this.props.textStyle]}>
+        <Text style={[styles.text, this.props.earlierTextStyle]}>
           {this.props.label}
         </Text>
       );
     }
     return (
       <View>
-        <Text style={[styles.text, this.props.textStyle, {
+        <Text style={[styles.text, this.props.earlierTextStyle, {
             opacity: 0,
           }]}>
           {this.props.label}
@@ -35,7 +35,7 @@ export default class LoadEarlier extends React.Component {
   render() {
     return (
       <TouchableOpacity
-        style={[styles.container, this.props.containerStyle]}
+        style={[styles.container, this.props.earlierContainerStyle]}
         onPress={() => {
           if (this.props.onLoadMoreAsync) {
             this.props.onLoadMoreAsync();
@@ -43,7 +43,7 @@ export default class LoadEarlier extends React.Component {
         }}
         disabled={this.props.isLoadingEarlier === true}
       >
-        <View style={[styles.wrapper, this.props.wrapperStyle]}>
+        <View style={[styles.wrapper, this.props.earlierWrapperStyle]}>
           {this.renderLoading()}
         </View>
       </TouchableOpacity>
@@ -83,9 +83,9 @@ LoadEarlier.defaultProps = {
   onLoadEarlier: () => {},
   isLoadingEarlier: false,
   label: '查看历史消息',
-  containerStyle: {},
-  wrapperStyle: {},
-  textStyle: {},
+    earlierContainerStyle: {},
+  earlierWrapperStyle: {},
+    earlierTextStyle: {},
   activityIndicatorStyle: {},
 };
 
@@ -93,8 +93,8 @@ LoadEarlier.propTypes = {
   onLoadEarlier: PropTypes.func,
   isLoadingEarlier: PropTypes.bool,
   label: PropTypes.string,
-  containerStyle: View.propTypes.style,
-  wrapperStyle: View.propTypes.style,
-  textStyle: Text.propTypes.style,
+  earlierContainerStyle: View.propTypes.style,
+  earlierWrapperStyle: View.propTypes.style,
+  earlierTextStyle: Text.propTypes.style,
   activityIndicatorStyle: View.propTypes.style,
 };

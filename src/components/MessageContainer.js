@@ -72,6 +72,7 @@ export default class MessageContainer extends React.Component {
             position = item.isOutgoing ? 'right' : 'left';
         }
         const messageProps = {
+            ...this.props,
             key: item.msgId,
             currentMessage: item,
             position: position,
@@ -203,6 +204,7 @@ export default class MessageContainer extends React.Component {
         this.setState({ messagesData });
     }
     render() {
+
         return (
             <View style={{flex:1}} { ...this.response }>
                 <FlatList
