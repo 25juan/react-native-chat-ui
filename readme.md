@@ -94,13 +94,24 @@ import { MessageList,MessageInput } from "./react-native-chatui" ;
 | stopRecording | 停止录制语音消息回调函数  |  function | (canceled)=>{} |
 | onEndReachedRecording | 手指滑动到取消发送的距离的时候触发  |  function | ()=>{} |
 | onReachedRecording | 手指滑动时触发的回调函数  |  function | ()=>{} |
-| handleImagePicker | 输入框工具栏 图片 点击事件回调函数  |  function | ()=>{} |
-| handleCameraPicker | 输入框工具栏 相机 点击事件回调函数   |  function | ()=>{} |
-| handleLocationClick | 输入框工具栏 位置 点击事件回调函数   |  function | ()=>{} |
+| onImagePicker | 输入框工具栏 图片 点击事件回调函数  |  function | ()=>{} |
+| onCameraPicker | 输入框工具栏 相机 点击事件回调函数   |  function | ()=>{} |
+| onLocationClick | 输入框工具栏 位置 点击事件回调函数   |  function | ()=>{} |
+| renderTools | 输入框工具栏 自定义渲染   |  function | (tools)=>{} |
+
 
 | 方法   | 含义   |      参数      |  默认参数 |
 |----------|:----------|:-------------:|------:|
 | dismiss |关闭表情选择和工具选择|  无 | 无 |
+
+#### Chat
+
+| 属性   | 含义   |      数据类型      |  默认值 |
+|----------|:----------|:-------------:|------:|
+| onLoad | Chat 初始化完成之后所执行的回调函数  |  function | (messageList,messageInput)=>{} |
+
+
+
 
 
 #### MessageList 数据格式

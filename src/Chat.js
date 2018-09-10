@@ -1,46 +1,26 @@
 import React,{ Component } from "react" ;
-import { View,StyleSheet,CameraRoll,Keyboard } from "react-native" ;
+import { View,StyleSheet } from "react-native" ;
 import MessageList from './components/MessageContainer';
 import MessageInput from "./components/InputToolbar" ;
 import RecordMask from "./components/RecordMask" ;
-
-import { mockText,mockImage,mockLocation,mockVoice } from "./mock";
-
-export default class App extends Component {
+import PropTypes from "prop-types" ;
+export default class Chat extends Component {
     state = {
         show:false,
         text:"",
         color:"",
     };
     startRecording = ()=>{
-        this.setState({
-            show:true,
-            text:"手指上滑, 取消发送",
-            color:"transparent"
-        });
-        console.log("start recording...")
-
+        this.setState({ show:true, text:"手指上滑, 取消发送", color:"transparent" });
+        this.props.startRecording();
     };
-    stopRecording = (caceled)=>{
+    stopRecording = (canceled)=>{
         this.setState({
             show:false,
             text:"",
             color:""
         });
-        if (caceled){
-            return ;
-        }
-        let sendMsg = mockVoice(true) ;
-        let receiveMsg = mockVoice(false) ;
-        this.messageList.appendToBottom([sendMsg]);
-        setTimeout(()=>{
-            this.messageList.appendToBottom([receiveMsg]);
-        },800);
-        setTimeout(()=>{
-            sendMsg.status = "send_success" ;
-            this.messageList.updateMsg(sendMsg);
-        },600);
-
+        this.props.stopRecording(canceled);
     };
     onEndReachedRecording = ()=>{
         this.setState({
@@ -48,6 +28,7 @@ export default class App extends Component {
             text:"松开手指, 取消发送",
             color:"#cf0e0e"
         });
+        this.props.onEndReachedRecording();
     };
     onReachedRecording = ()=>{
         this.setState({
@@ -55,87 +36,50 @@ export default class App extends Component {
             text:"手指上滑, 取消发送",
             color:"transparent"
         });
+        this.props.onReachedRecording();
     };
 
     componentDidMount(){
-        this.onSend("第一条消息") ;
+        this.props.onLoad(this.messageList,this.input);
     }
-
     onSend = (text)=>{
-        let sendMsg = mockText(true,text,"send_going") ;
-        let receiveMsg = mockText(false,text) ;
-        this.messageList.appendToBottom([sendMsg]);
-        setTimeout(()=>{
-            this.messageList.appendToBottom([receiveMsg]);
-        },800);
-        setTimeout(()=>{
-            sendMsg.status = "send_success" ;
-            this.messageList.updateMsg(sendMsg);
-        },600);
+        if(text){
+            this.props.onSend(text);
+        }
     };
     onMessagePress = (message)=>{
-        if(message.msgType=== "voice"){
-            message.playing = true ;
-            message.isRead = true ;
-            this.messageList.updateMsg(message);
-            setTimeout(()=>{
-                message.playing = false ;
-                this.messageList.updateMsg(message);
-            },1000);
-            return ;
-        }
-        alert(message.msgType+"");
-        console.log("message press....",message)
+        this.props.onMessagePress(message);
     };
     onMessageLongPress = (message)=>{
-        alert(message.msgType+"")
-        console.log("message long press....",message)
-    };
-    handleCameraPicker =()=>{
-        this.handleImagePicker();
+        this.props.onMessageLongPress(message);
     };
     onFailPress = (message)=>{
-        console.log("fail...")
-        alert("fail messgae id"+message.msgType);
+        this.props.onFailPress(message);
     };
-    handleImagePicker =()=>{
-        let sendMsg = mockImage(true,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536298415755&di=3979575fd677e35442398fa90233c586&imgtype=0&src=http%3A%2F%2Fs4.sinaimg.cn%2Fmw690%2F001sB7zxzy74flKL4FJb3%26690") ;
-        let receiveMsg = mockImage(false,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536298415755&di=3979575fd677e35442398fa90233c586&imgtype=0&src=http%3A%2F%2Fs4.sinaimg.cn%2Fmw690%2F001sB7zxzy74flKL4FJb3%26690") ;
-        this.messageList.appendToBottom([sendMsg]);
-        setTimeout(()=>{
-            this.messageList.appendToBottom([receiveMsg]);
-        },800);
-        setTimeout(()=>{
-            sendMsg.status = "send_success" ;
-            this.messageList.updateMsg(sendMsg);
-        },600);
+    onCameraPicker =()=>{
+        this.props.onImagePicker();
     };
-    handleLocationClick = ()=>{
-        let sendMsg = mockLocation(true) ;
-        let receiveMsg = mockLocation(false) ;
-        this.messageList.appendToBottom([sendMsg]);
-        setTimeout(()=>{
-            this.messageList.appendToBottom([receiveMsg]);
-        },800);
-        setTimeout(()=>{
-            sendMsg.status = "send_success" ;
-            this.messageList.updateMsg(sendMsg);
-        },600);
+    onImagePicker =()=>{
+       this.props.onImagePicker();
     };
-    onPhonePress = ()=>{
-
+    onLocationClick = ()=>{
+        this.props.onLocationClick();
     };
-    onUrlPress = ()=>{
-
+    onPhonePress = (phone)=>{
+        this.props.onPhonePress(phone);
     };
-    onEmailPress = ()=>{
-
+    onUrlPress = (url)=>{
+        this.props.onUrlPress(url);
     };
-    onMessageSwipe = ()=>{
+    onEmailPress = (email)=>{
+        this.props.onEmailPress(email);
+    };
+    onMessageListTouch = ()=>{
         this.dismissTools();
+        this.props.onMessageListTouch();
     };
     onScroll(){
-
+        this.props.onScroll();
     }
     dismissTools(){
         if(this.input){// 当消息列表滚动的时候关闭表情和同居选择面板
@@ -143,48 +87,46 @@ export default class App extends Component {
         }
     }
     onLoadMoreAsync = ()=>{
-        console.log("load more...")
+        this.props.onLoadMoreAsync();
     };
-    renderLoadEarlier = ()=>{
-
-    };
+    renderLoadEarlier = ()=>{  };
+    onHeightChange = (height)=>{ this.props.onHeightChange(height); };
     render() {
+        let { style={ } } = this.props ;
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,style]}>
                 <MessageList
-                    containerStyle={{
-                        left:{ backgroundColor:"red" },
-                        right:{},
-                    }}
-                    wrapperStyle={{ left:{ backgroundColor:"#000" }, right:{}, }}
-                    textStyle = {{ left:{ color:"#fff" },right:{ color:"blue"} }}
-                    earlierTextStyle = {{color:"red"}}
-                    earlierContainerStyle = {{ backgroundColor:"blue" }}
-                    earlierWrapperStyle = {{ backgroundColor:"red" }}
+                    containerStyle={ this.props.containerStyle }
+                    wrapperStyle={this.props.wrapperStyle}
+                    textStyle = {this.props.textStyle}
+                    earlierTextStyle = {this.props.earlierTextStyle}
+                    earlierContainerStyle = {this.props.earlierContainerStyle}
+                    earlierWrapperStyle = {this.props.earlierWrapperStyle}
                     onLoadMoreAsync={this.onLoadMoreAsync}
-                    isLoadingEarlier = { false }
+                    isLoadingEarlier = { this.props.isLoadingEarlier }
 
                     ref={(messageList)=> this.messageList = messageList }
                     onMessagePress={this.onMessagePress}
                     onFailPress = { this.onFailPress }
                     onMessageLongPress={this.onMessageLongPress}
                     onScroll={()=>this.onScroll()}
-                    onMessageSwipe={this.onMessageSwipe}
+                    onMessageListTouch={this.onMessageListTouch}
                     isShowOutgoingDisplayName={true}
-                    canLoadMore={ true }
+                    canLoadMore={ this.props.canLoadMore }
                     onPhonePress={this.onPhonePress}
                     onUrlPress = { this.onUrlPress }
                     onEmailPress = { this.onEmailPress }/>
 
 
-                <MessageInput onHeightChange={ height=>{} }
+                <MessageInput onHeightChange={ this.onHeightChange }
                               startRecording={ this.startRecording }
                               stopRecording={ this.stopRecording }
                               onEndReachedRecording = { this.onEndReachedRecording }
                               onReachedRecording={ this.onReachedRecording }
-                              handleImagePicker = { this.handleImagePicker }
-                              handleCameraPicker = { this.handleCameraPicker }
-                              handleLocationClick={this.handleLocationClick}
+                              handleImagePicker = { this.onImagePicker }
+                              handleCameraPicker = { this.onCameraPicker }
+                              handleLocationClick={this.onLocationClick}
+                              renderTools = { (tools)=>tools }
                               ref={(input)=>this.input = input}
                               onSend={ this.onSend }/>
                 <RecordMask  show={ this.state.show }
@@ -194,6 +136,66 @@ export default class App extends Component {
         );
     }
 }
+Chat.propTypes = {
+    containerStyle:PropTypes.object,
+    wrapperStyle:PropTypes.object,
+    textStyle:PropTypes.object,
+    earlierTextStyle:PropTypes.object,
+    earlierContainerStyle:PropTypes.object,
+    earlierWrapperStyle:PropTypes.object,
+    isLoadingEarlier:PropTypes.bool,
+    canLoadMore:PropTypes.bool,
+    startRecording:PropTypes.func,
+    stopRecording:PropTypes.func,
+    onEndReachedRecording:PropTypes.func,
+    onReachedRecording:PropTypes.func,
+    onSend:PropTypes.func,
+    onFailPress:PropTypes.func,
+    onMessagePress:PropTypes.func,
+    onMessageLongPress:PropTypes.func,
+    onImagePicker:PropTypes.func,
+    onCameraPicker:PropTypes.func,
+    onLocationClick:PropTypes.func,
+    onPhonePress:PropTypes.func,
+    onUrlPress:PropTypes.func,
+    onEmailPress:PropTypes.func,
+    onMessageListTouch:PropTypes.func,
+    onScroll:PropTypes.func,
+    onLoadMoreAsync:PropTypes.func,
+    renderLoadEarlier:PropTypes.func,
+    onLoad :PropTypes.func,
+    onHeightChange:PropTypes.func,
+};
+Chat.defaultProps = {
+    containerStyle:{left:{ },right:{  }},
+    wrapperStyle:{left:{ },right:{  }},
+    textStyle:{ left:{ },right:{  } },
+    earlierTextStyle:{ },
+    earlierContainerStyle:{ },
+    earlierWrapperStyle:{ },
+    isLoadingEarlier:false ,
+    canLoadMore:true,
+    startRecording:()=>{ },
+    stopRecording:PropTypes.func,
+    onEndReachedRecording:()=>{ },
+    onReachedRecording:()=>{ },
+    onSend:()=>{ },
+    onMessagePress:()=>{ },
+    onMessageLongPress:()=>{ },
+    onImagePicker:()=>{ },
+    onCameraPicker:()=>{ },
+    onLocationClick:()=>{ },
+    onPhonePress:()=>{ },
+    onUrlPress:()=>{ },
+    onEmailPress:()=>{ },
+    onMessageListTouch:()=>{ },
+    onScroll:()=>{ },
+    onLoadMoreAsync:()=>{ },
+    renderLoadEarlier:()=>{ },
+    onFailPress:()=>{ },
+    onLoad:()=>{ },
+    onHeightChange:()=>{ },
+};
 
 const styles = StyleSheet.create({
     container: {

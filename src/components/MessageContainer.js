@@ -27,7 +27,7 @@ export default class MessageContainer extends React.Component {
         let response = {
             onStartShouldSetResponder: (evt) => true,
             onMoveShouldSetResponder: (evt) => true,
-            onResponderGrant: (evt) => { this.props.onMessageSwipe(); },
+            onResponderGrant: (evt) => { this.props.onMessageListTouch(); },
             onResponderReject: (evt) => {},
             onResponderMove: (evt) => {},
             onResponderRelease: (evt) => {},
@@ -116,9 +116,9 @@ export default class MessageContainer extends React.Component {
         return null;
     }
     refresh = ()=>{
-        if(typeof this.props.onLoadMore === "function"){
+        if(typeof this.props.onLoadMoreAsync === "function"){
             this.setState({ refreshing:true }) ;
-            this.props.onLoadMore().then(()=>{
+            this.props.onLoadMoreAsync().then(()=>{
                 this.setState({ refreshing:false }) ;
             });
         }
@@ -234,7 +234,7 @@ MessageContainer.defaultProps = {
     onMessagePress:()=>{ },
     onMessageLongPress:()=>{ },
     onScroll:()=>{},
-    onMessageSwipe:()=>{}, // 当消息列表滑动的时候触发的事件
+    onMessageListTouch:()=>{}, // 当消息列表滑动的时候触发的事件
 };
 
 MessageContainer.propTypes = {
@@ -246,5 +246,5 @@ MessageContainer.propTypes = {
     onMessagePress:PropTypes.func,
     onMessageLongPress:PropTypes.func,
     onScroll:PropTypes.func,
-    onMessageSwipe:PropTypes.func,
+    onMessageListTouch:PropTypes.func,
 };

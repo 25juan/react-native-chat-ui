@@ -353,35 +353,45 @@ export default class InputToolbar extends React.Component {
                 </View>
         </Animated.View>
     }
-
+    _renderTools = ()=>{
+        let style= {height:40,width:40};
+        return [
+            (
+                <View key={"camera"} style={{alignItems:"center",marginRight:20}}>
+                    <TouchableOpacity style={Styles.iconTouch} onPress={this.handleCameraPicker.bind(this)}>
+                        <Image resizeMode={"contain"} style={style}  source={require("./Images/iconCamera.png")}/>
+                    </TouchableOpacity>
+                    <Text style={{marginTop:6, fontSize:12}}>拍照</Text>
+                </View>
+            ),(
+                <View key={"photo"} style={{alignItems:"center",marginRight:20}}>
+                    <TouchableOpacity style={Styles.iconTouch} onPress={this.handleImagePicker.bind(this)}>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/iconImage.png")}/>
+                    </TouchableOpacity>
+                    <Text style={{marginTop:6, fontSize:12}}>相册</Text>
+                </View>
+            ),(
+                <View key={"location"} style={{alignItems:"center"}}>
+                    <TouchableOpacity style={Styles.iconTouch} onPress={this.handleLocationClick.bind(this)}>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/iconLocation.png")}/>
+                    </TouchableOpacity>
+                    <Text style={{marginTop:6, fontSize:12}}>位置</Text>
+                </View>
+            )
+        ];
+    }
     /**
      * 渲染工具栏
      * @returns {*}
      * @private
      */
     _renderActions() {
+        let { renderTools } = this.props ;
         let { actionVisible } = this.state ; 
         let height = actionVisible?ACTION_BUTTON_HEIGHT:0;
         return actionVisible?(
             <Animated.View style={[Styles.iconRow,{ height }]}>
-                <View style={{alignItems:"center",marginRight:20}}>
-                    <TouchableOpacity style={Styles.iconTouch} onPress={this.handleCameraPicker.bind(this)}>
-                        <Image style={{height:80,width:80}}  source={require("./Images/image.png")}/>
-                    </TouchableOpacity>
-                    <Text style={{marginTop:6, fontSize:12}}>拍照</Text>
-                </View>
-                <View style={{alignItems:"center",marginRight:20}}>
-                    <TouchableOpacity style={Styles.iconTouch} onPress={this.handleImagePicker.bind(this)}>
-                        <Image style={{height:80,width:80}} source={require("./Images/image.png")}/>
-                    </TouchableOpacity>
-                    <Text style={{marginTop:6, fontSize:12}}>相册</Text>
-                </View>
-                <View style={{alignItems:"center"}}>
-                    <TouchableOpacity style={Styles.iconTouch} onPress={this.handleLocationClick.bind(this)}>
-                    <Image style={{height:80,width:80}} source={require("./Images/image.png")}/>
-                    </TouchableOpacity>
-                    <Text style={{marginTop:6, fontSize:12}}>位置</Text>
-                </View>
+                {renderTools? renderTools(this._renderTools()):this._renderTools() }
             </Animated.View>
         ):null;
     }
@@ -531,7 +541,7 @@ export default class InputToolbar extends React.Component {
                               onPress={this.handleEmojiOpen.bind(this)}>
                 {
                     isEmoji ? <Image source={require('./Images/chatBar_keyboard.png')}/>
-                        : <Image style={{height:30,width:30}}  source={require('./Images/happy.png')}/>
+                        : <Image style={{height:30,width:30}}  source={require('./Images/iconEmoji.png')}/>
                 }
             </TouchableOpacity>
         )
