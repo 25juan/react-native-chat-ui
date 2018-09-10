@@ -55,6 +55,18 @@ import { MessageList,MessageInput } from "./react-native-chatui" ;
 | onPhonePress|消息为电话号码的时候点击事件 |    function   |   ()=>{} |
 | onUrlPress|消息为url 的时候点击事件 |    function   |   ()=>{} |
 | onEmailPress|消息为电子邮件的时候点击事件 |    function   |   ()=>{} |
+| renderLoadEarlier| 自定义的显示更早之前的消息渲染 |    function   |   (props)=>{} |
+| containerStyle| 消息列表一行容器的样式 |    object   |   { left:{ viewProps },right:{ viewProps } } |
+| wrapperStyle| bubble样式 |    object   |   { left:{ viewProps },right:{ viewProps } } |
+| textStyle| bubble 文本样式 |    object   |   { left:{ viewProps },right:{ viewProps } } |
+| earlierTextStyle| 查看历史消息 样式 |    object   |   { viewProps } |
+| earlierContainerStyle| 查看历史消息 容器样式 |    object   |   { viewProps } |
+| earlierWrapperStyle | 包裹文本样式 |    object   |   { viewProps } |
+| onLoadMoreAsync | 点击查看历史消息所触发的事件 |    function   |  ()=> {  } |
+| isLoadingEarlier | 点击查看历史消息 文本是不是显示一个loading 框 |    boolean |
+
+
+
 
 
 
