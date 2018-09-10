@@ -43,7 +43,6 @@ import { MessageList,MessageInput } from "./react-native-chatui" ;
 
 | 属性   | 含义   |      数据类型      |  默认值 |
 |----------|:----------|:-------------:|------:|
-| canLoadMore |是否显示查看历史消息文字|  boolean | false |
 | isShowIncomingDisplayName |显示对方的用户名|  boolean | true |
 | isShowOutgoingDisplayName |显示自己的用户名|  boolean | false |
 | renderMessage|自定义消息渲染 |    function   |   ()=>{} |
@@ -59,11 +58,15 @@ import { MessageList,MessageInput } from "./react-native-chatui" ;
 | containerStyle| 消息列表一行容器的样式 |    object   |   { left:{ viewProps },right:{ viewProps } } |
 | wrapperStyle| bubble样式 |    object   |   { left:{ viewProps },right:{ viewProps } } |
 | textStyle| bubble 文本样式 |    object   |   { left:{ viewProps },right:{ viewProps } } |
+| canLoadMore |是否显示查看历史消息文字|  boolean | false |
 | earlierTextStyle| 查看历史消息 样式 |    object   |   { viewProps } |
 | earlierContainerStyle| 查看历史消息 容器样式 |    object   |   { viewProps } |
 | earlierWrapperStyle | 包裹文本样式 |    object   |   { viewProps } |
 | onLoadMoreAsync | 点击查看历史消息所触发的事件 |    function   |  ()=> {  } |
 | isLoadingEarlier | 点击查看历史消息 文本是不是显示一个loading 框 |    boolean |
+| onMessageListTouch | 当消息列表手指按下的时候所触发的事件 |    ()=>{} |
+
+
 
 
 
