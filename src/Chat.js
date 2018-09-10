@@ -126,7 +126,7 @@ export default class Chat extends Component {
                               handleImagePicker = { this.onImagePicker }
                               handleCameraPicker = { this.onCameraPicker }
                               handleLocationClick={this.onLocationClick}
-                              renderTools = { (tools)=>tools }
+                              renderTools = { this.props.renderTools }
                               ref={(input)=>this.input = input}
                               onSend={ this.onSend }/>
                 <RecordMask  show={ this.state.show }

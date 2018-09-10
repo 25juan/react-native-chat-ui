@@ -36,8 +36,18 @@ dependencies {
 
 #### 使用方法
 ```
-import { MessageList,MessageInput } from "./react-native-chatui" ;
+import Chat,{ MessageList,MessageInput } from "./react-native-chatui" ;
+
+
 ```
+这里导出了`Chat`、`MessageList`、`MessageInput`，建议用Chat 组件就可以了，`MessageList`和`MessageInput`是用来自己
+深度定制的组件，Chat 组件将会继承`MessageList`、`MessageInput`的所有属性，并且会把对应的属性放到对应的组件上面。
+使用方法参照`example.js`
+
+#### Chat
+| 属性   | 含义   |      数据类型      |  默认值 |
+|----------|:----------|:-------------:|------:|
+| onLoad | Chat 初始化完成之后所执行的回调函数  |  function | (messageList,messageInput)=>{} |
 
 #### MessageList
 
@@ -104,11 +114,7 @@ import { MessageList,MessageInput } from "./react-native-chatui" ;
 |----------|:----------|:-------------:|------:|
 | dismiss |关闭表情选择和工具选择|  无 | 无 |
 
-#### Chat
 
-| 属性   | 含义   |      数据类型      |  默认值 |
-|----------|:----------|:-------------:|------:|
-| onLoad | Chat 初始化完成之后所执行的回调函数  |  function | (messageList,messageInput)=>{} |
 
 
 
