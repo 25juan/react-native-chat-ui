@@ -60,7 +60,7 @@ import Chat,{ MessageList,MessageInput } from "./react-native-chatui" ;
 | onMessagePress|点击消息事件 |    function   |   (message)=>{} |
 | onFailPress|消息发送失败红色感叹号点击事件 |    function   |   (message)=>{} |
 | onMessageLongPress|消息长按事件 |    function   |   (message)=>{} |
-| onAvatarPress | 头像点击事件 |    (message)=>{} |
+| onAvatarPress | 头像点击事件 |  function  | (message)=>{}|
 | onScroll|消息列表滚动事件 |    function   |   ()=>{} |
 | onPhonePress|消息为电话号码的时候点击事件 |    function   |   (tel)=>{} |
 | onUrlPress|消息为url 的时候点击事件 |    function   |   (url)=>{} |
