@@ -109,8 +109,8 @@ import Chat,{ MessageList,MessageInput } from "./react-native-chatui" ;
 | onImagePicker | 输入框工具栏 图片 点击事件回调函数  |  function | ()=>{} |
 | onCameraPicker | 输入框工具栏 相机 点击事件回调函数   |  function | ()=>{} |
 | onLocationClick | 输入框工具栏 位置 点击事件回调函数   |  function | ()=>{} |
-| renderTools | 输入框工具栏 自定义渲染   |  function | (tools)=>{} |
-
+| renderTools | 输入框工具栏 自定义渲染   |  function | (tools)=>tools |
+| renderEmoji | 输入框工具栏 自定义渲染   |  function | (emojis)=>emojis |
 
 | 方法   | 含义   |      参数      |  默认参数 |
 |----------|:----------|:-------------:|------:|
