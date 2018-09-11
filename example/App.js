@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import ChatDemo from "./example" ;
 
-export default class App extends Component<{}> {
+export default class App extends Component {
   render() {
     return (<ChatDemo/>);
   }
