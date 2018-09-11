@@ -121,6 +121,7 @@ export default class Chat extends Component {
                 <MessageInput onHeightChange={ this.onHeightChange }
                               startRecording={ this.startRecording }
                               stopRecording={ this.stopRecording }
+                              renderEmoji={this.props.renderEmoji}
                               onEndReachedRecording = { this.onEndReachedRecording }
                               onReachedRecording={ this.onReachedRecording }
                               handleImagePicker = { this.onImagePicker }
@@ -166,6 +167,7 @@ Chat.propTypes = {
     onLoad :PropTypes.func,
     onHeightChange:PropTypes.func,
     onAvatarPress:PropTypes.func,
+    renderEmoji:PropTypes.func,
 };
 Chat.defaultProps = {
     containerStyle:{left:{ },right:{  }},
