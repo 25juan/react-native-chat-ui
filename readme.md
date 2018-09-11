@@ -55,15 +55,16 @@ import Chat,{ MessageList,MessageInput } from "./react-native-chatui" ;
 |----------|:----------|:-------------:|------:|
 | isShowIncomingDisplayName |显示对方的用户名|  boolean | true |
 | isShowOutgoingDisplayName |显示自己的用户名|  boolean | false |
-| renderMessage|自定义消息渲染 |    function   |   ()=>{} |
-| onLoadMore|下拉加载更多的回调函数 |    function   |   ()=>{} |
-| onMessagePress|点击消息事件 |    function   |   ()=>{} |
-| onFailPress|消息发送失败红色感叹号点击事件 |    function   |   ()=>{} |
-| onMessageLongPress|消息长按事件 |    function   |   ()=>{} |
+| renderMessage|自定义消息渲染 |    function   |   (messageProps)=>{} |
+| onLoadMore|下拉加载更多的回调函数 |    function   |   (message)=>{} |
+| onMessagePress|点击消息事件 |    function   |   (message)=>{} |
+| onFailPress|消息发送失败红色感叹号点击事件 |    function   |   (message)=>{} |
+| onMessageLongPress|消息长按事件 |    function   |   (message)=>{} |
+| onAvatarPress | 头像点击事件 |    (message)=>{} |
 | onScroll|消息列表滚动事件 |    function   |   ()=>{} |
-| onPhonePress|消息为电话号码的时候点击事件 |    function   |   ()=>{} |
-| onUrlPress|消息为url 的时候点击事件 |    function   |   ()=>{} |
-| onEmailPress|消息为电子邮件的时候点击事件 |    function   |   ()=>{} |
+| onPhonePress|消息为电话号码的时候点击事件 |    function   |   (tel)=>{} |
+| onUrlPress|消息为url 的时候点击事件 |    function   |   (url)=>{} |
+| onEmailPress|消息为电子邮件的时候点击事件 |    function   |   (email)=>{} |
 | renderLoadEarlier| 自定义的显示更早之前的消息渲染 |    function   |   (props)=>{} |
 | containerStyle| 消息列表一行容器的样式 |    object   |   { left:{ viewProps },right:{ viewProps } } |
 | wrapperStyle| bubble样式 |    object   |   { left:{ viewProps },right:{ viewProps } } |
@@ -75,6 +76,7 @@ import Chat,{ MessageList,MessageInput } from "./react-native-chatui" ;
 | onLoadMoreAsync | 点击查看历史消息所触发的事件 |    function   |  ()=> {  } |
 | isLoadingEarlier | 点击查看历史消息 文本是不是显示一个loading 框 |    boolean |
 | onMessageListTouch | 当消息列表手指按下的时候所触发的事件 |    ()=>{} |
+
 
 
 
