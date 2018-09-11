@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "lodash": "^4.17.10",
     "react": "16.2.0",
     "react-native": "0.52.1",
     "react-native-chat-ui": "git+https://github.com/25juan/react-native-chat-ui.git"

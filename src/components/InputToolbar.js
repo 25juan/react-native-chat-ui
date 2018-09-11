@@ -9,12 +9,15 @@ import {
     TouchableOpacity,
     Animated,
     ScrollView,
+    FlatList,
     Keyboard
 } from 'react-native';
 import Emoji from 'react-native-emoji'
 import Styles from './Styles/MessageScreenStyle';
 import PropTypes from "prop-types" ;
 import spliddit from "../utils/spliddit" ;
+import _ from "lodash" ;
+var emojiUtils = require('node-emoji')
 var emoji = require("./emoji");
 const MODE_TEXT = "mode_text"; // 文本输入模式
 const MODE_RECORD = "mode_record"; // 录音模式
@@ -287,63 +290,75 @@ export default class InputToolbar extends React.Component {
         }
         this.setState({mode: MODE_TEXT, focused: true,});
     }
+    renderImoji = (item,index,rowIconNum)=>{
+        let emojis = _.chunk(item,rowIconNum) ;
+        let backspace = "{{backspace}}" ;
+        emojis.map(row=>{
+            if(row.length !== rowIconNum){
+                row.push(backspace) ;
+            }
+            return row ;
+        });
 
+        return (
+            <View key={index} style={[Styles.slide,{width:width,height:EMOJI_HEIGHT-35}]}>
+                {
+                    emojis.map((rows,index)=>(
+                        <View key={`${index}`} style={Styles.slideRow}>
+                            {
+                                rows.map((item,id)=>{
+                                    return (
+                                        item === backspace?(
+                                            <TouchableOpacity key={_.uniqueId("row")} onPress={this.handleEmojiCancel.bind(this)}>
+                                                <Image style={{height:35,width:35}} source={require("./Images/backspace.png")}/>
+                                            </TouchableOpacity>
+                                        ):(
+                                            item==="{{emtype_str}}"?(
+                                                    <View style={{ opacity:0 }} key={_.uniqueId("row")}>
+                                                        <Text style={[Styles.emoji]}><Emoji name={ "cow2" }/></Text>
+                                                    </View>
+                                                ):(
+                                                <TouchableOpacity key={_.uniqueId("row")} onPress={() => {
+                                                    this.handleEmojiClick(emojiUtils.get(item))
+                                                }}>
+                                                    <Text style={[Styles.emoji]}><Emoji name={ item }/></Text>
+                                                </TouchableOpacity>
+                                            ))
+                                    )
+                                })
+                            }
+                        </View>
+                    ))
+                }
+            </View>);
+    };
     /**
      * 渲染emoji表情
      * @returns {XML}
      * @private
      */
     _renderEmoji() {
+        let { renderEmoji } = this.props ;
         const {isEmoji, focused} = this.state;
         const emojiStyle = [];
+        let emojis =  renderEmoji(emoji.emojis) ;
         const rowIconNum = 7;
-        const emojis = Object.keys(emoji.map).map((v, k) => {
-            const name = emoji.map[v]
-            return (
-                <TouchableOpacity key={v + k} onPress={() => {
-                        this.handleEmojiClick(v)
-                    }}>
-                    <Text style={[Styles.emoji, emojiStyle]}><Emoji name={name}/></Text>
-                </TouchableOpacity>
-            )
-        });
-
+        const pageNum = 20 ;
+        let pages = Math.ceil(emojis.length/pageNum) ;
+        for(let start =emojis.length ,end = pages*pageNum; start<end ;start++){
+            emojis[start] = "{{emtype_str}}" ;
+        }
+        emojis = _.chunk(emoji.emojis,pageNum) ;
         return <Animated.View style={[Styles.emojiRow,{width:width,height:EMOJI_HEIGHT}]}>
-                <ScrollView
+                <FlatList
                     pagingEnabled={ true }
                     horizontal={true}
                     alwaysBounceHorizontal={true}
-                    showsHorizontalScrollIndicator={false}>
-                     
-                     <View style={[Styles.slide,{width:width,height:EMOJI_HEIGHT-35}]}>
-                    <View style={Styles.slideRow}>
-                        {emojis.slice(0, rowIconNum)}
-                    </View>
-                    <View style={Styles.slideRow}>
-                        {emojis.slice(1 * rowIconNum, rowIconNum * 2)}
-                    </View>
-                    <View style={[Styles.slideRow]}>
-                        {emojis.slice(2 * rowIconNum, rowIconNum * 3 - 1)}
-                        <TouchableOpacity onPress={this.handleEmojiCancel.bind(this)}>
-                            <Image style={{height:35,width:40}} source={require("./Images/backspace.png")}/>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={[Styles.slide,{width:width,height:EMOJI_HEIGHT-35}]}>
-                    <View style={Styles.slideRow}>
-                        {emojis.slice(3 * rowIconNum - 1, rowIconNum * 4 - 1)}
-                    </View>
-                    <View style={Styles.slideRow}>
-                        {emojis.slice(4 * rowIconNum - 1, rowIconNum * 5 - 1)}
-                    </View>
-                    <View style={[Styles.slideRow]}>
-                        {emojis.slice(5 * rowIconNum - 1, rowIconNum * 6 - 1)}
-                        <TouchableOpacity onPress={this.handleEmojiCancel.bind(this)}>
-                            <Image style={{height:35,width:40}}  source={require("./Images/backspace.png")}/>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                </ScrollView>
+                    showsHorizontalScrollIndicator={false}
+                    data={emojis }
+                    keyExtractor = { (item,index)=>index }
+                    renderItem={({ item,index })=>this.renderImoji(item,index,rowIconNum)}
+                />
                 <View style={{height:35,flexDirection:'row'}}>
                     <View style={{flex:1}}></View>
                     <TouchableOpacity onPress={()=>this.handleSend()}
@@ -591,6 +606,7 @@ InputToolbar.propTypes = {
     onReachedRecording:PropTypes.func.isRequired, //手指为滑动到取消发送的距离的时候
     onSend:PropTypes.func.isRequired, // 发送按钮点击发送消息事件
     onHeightChange:PropTypes.func.isRequired, // 输入框的高度发生变化的时候所触发的事件
+    renderEmoji:PropTypes.func,
 
 };
 InputToolbar.defaultProps = {
@@ -602,6 +618,7 @@ InputToolbar.defaultProps = {
     onEndReachedRecording:()=>{}, // 手指滑动到取消发送的距离的时候
     onReachedRecording:()=>{},//手指为滑动到取消发送的距离的时候
     onSend:()=>{},
-    onHeightChange:()=>{}
+    onHeightChange:()=>{},
+    renderEmoji:(emojis)=>emojis
 };
 
