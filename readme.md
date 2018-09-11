@@ -75,7 +75,7 @@ import Chat,{ MessageList,MessageInput } from "./react-native-chatui" ;
 | earlierWrapperStyle | 包裹文本样式 |    object   |   { viewProps } |
 | onLoadMoreAsync | 点击查看历史消息所触发的事件 |    function   |  ()=> {  } |
 | isLoadingEarlier | 点击查看历史消息 文本是不是显示一个loading 框 |    boolean |
-| onMessageListTouch | 当消息列表手指按下的时候所触发的事件 |    ()=>{} |
+| onMessageListTouch | 当消息列表手指按下的时候所触发的事件 |    function |()=>{}
 
 
 
