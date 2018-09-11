@@ -109,7 +109,7 @@ export default class ChatDemo extends Component {
         console.log("加载更多")
     };
     onAvatarPress = (message)=>{
-        console.log(message)
+        console.log("avatar press...",message)
     }
     render() {
         return <Chat onLoad={(messageList,input)=>{
