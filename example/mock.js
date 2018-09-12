@@ -6,12 +6,12 @@ var msg = {  // 文本
 var rightUser = {
     _id: "",
     name: "rightUser",
-    avatar: "http://app.yunsdt.com/app/images/qq.png"
+    avatar: "https://raw.githubusercontent.com/25juan/react-native-chat-ui/master/example/image/right.png"
 };
 var leftUser = {
     _id: "",
     name: "leftUser",
-    avatar: "http://app.yunsdt.com/app/images/avatar.png"
+    avatar: "https://raw.githubusercontent.com/25juan/react-native-chat-ui/master/example/image/left.png"
 }
 let counter = 0 ;
 export const mockText = (isOutgoing=true,text,status)=>{
