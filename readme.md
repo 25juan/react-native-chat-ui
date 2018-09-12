@@ -4,10 +4,20 @@
 一款react native 的聊天UI框架，该框架只是UI层的封装,不做任何IM SDK 的集成，需要IM SDK 的可以自己集成第三方SDK。
 
 #### UI 展示效果
+##### Android
 ![UI展示效果1](./src/screenshot/1.png)
 ![UI展示效果2](./src/screenshot/2.png)
 ![UI展示效果3](./src/screenshot/3.png)
 ![UI展示效果4](./src/screenshot/4.png)
+
+##### IOS
+![UI展示效果1](./src/screenshot/ios-1.png)
+![UI展示效果2](./src/screenshot/ios-2.png)
+![UI展示效果3](./src/screenshot/ios-3.png)
+![UI展示效果4](./src/screenshot/ios-4.png)
+![UI展示效果4](./src/screenshot/ios-5.png)
+![UI展示效果4](./src/screenshot/ios-6.png)
+
 
 
 #### 安装
