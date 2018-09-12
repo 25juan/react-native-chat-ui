@@ -26,7 +26,7 @@ const width = Dimensions.get('window').width;
 
 //输入框初始高度
 const MIN_COMPOSER_HEIGHT = Platform.select({
-    ios: 34,
+    ios: 30,
     android: 41,
 });
 const MAX_COMPOSER_HEIGHT = 100;
