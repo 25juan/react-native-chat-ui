@@ -8,9 +8,8 @@ import {
     Image,
     TouchableOpacity,
     Animated,
-    ScrollView,
+    Keyboard,
     FlatList,
-    Keyboard
 } from 'react-native';
 import Emoji from 'react-native-emoji'
 import Styles from './Styles/MessageScreenStyle';
@@ -26,7 +25,7 @@ const width = Dimensions.get('window').width;
 
 //输入框初始高度
 const MIN_COMPOSER_HEIGHT = Platform.select({
-    ios: 30,
+    ios: 34,
     android: 41,
 });
 const MAX_COMPOSER_HEIGHT = 100;
@@ -37,7 +36,7 @@ export const MIN_INPUT_TOOLBAR_HEIGHT = Platform.select({
 });
 
 const ACTION_BUTTON_HEIGHT = 220;
-const EMOJI_HEIGHT = 190;
+const EMOJI_HEIGHT = 200;
 
 export default class InputToolbar extends React.Component {
 
@@ -50,11 +49,41 @@ export default class InputToolbar extends React.Component {
             isEmoji: false,
             value: '',
             actionVisible: false,
+            shimVisible:false, // ios软键盘弹出的垫子,只有ios 需要特殊处理
             actionAnim: new Animated.Value(0)
         };
 
         this.composerHeight = MIN_COMPOSER_HEIGHT;
         this.actionBarHeight = 0;
+    }
+
+    componentWillMount(){
+        Platform.OS === "ios" && this.removeKeyboardListener(); 
+    }
+    componentWillUnmount(){
+        Platform.OS === "ios" && this.removeKeyboardListener();
+    }
+    componentDidMount(){
+        Platform.OS === "ios" && this.addKeyboardListener();
+    }
+    removeKeyboardListener(){
+        Keyboard.removeAllListeners("keyboardDidShow");
+        Keyboard.removeAllListeners("keyboardDidHide");
+    }
+    addKeyboardListener(){
+        Keyboard.addListener("keyboardDidShow",(e)=>{
+            let keyboardHeight = e.startCoordinates.height ; // 获取键盘高度
+            this.actionBarHeight = keyboardHeight ;
+            this.setState({
+                shimVisible:true
+            });
+        });
+        Keyboard.addListener("keyboardDidHide",(e)=>{ // 关闭软件盘时重置参数
+            this.actionBarHeight = 0 ;
+            this.setState({
+                shimVisible:false
+            })
+        });
     }
 
     /**
@@ -210,7 +239,7 @@ export default class InputToolbar extends React.Component {
      */
     handleChangeText(v) {
         if (v.length > 0 && v[v.length - 1] == '\n') {
-            this.props.onSend(v);
+            this.props.onSend(v.slice(0,v.length - 1)); // 去除\n
             if (this.composerHeight != MIN_COMPOSER_HEIGHT) {
                 this.composerHeight = MIN_COMPOSER_HEIGHT;
                 this.onHeightChange();
@@ -402,13 +431,15 @@ export default class InputToolbar extends React.Component {
      */
     _renderActions() {
         let { renderTools } = this.props ;
-        let { actionVisible } = this.state ; 
+        let { shimVisible, actionVisible } = this.state ; // 如果当前是软键盘弹出则添加一个垫子，防止输入框被键盘遮住
         let height = actionVisible?ACTION_BUTTON_HEIGHT:0;
-        return actionVisible?(
-            <Animated.View style={[Styles.iconRow,{ height }]}>
-                {renderTools? renderTools(this._renderTools()):this._renderTools() }
-            </Animated.View>
-        ):null;
+        return shimVisible?(<View style={[Styles.iconRow,{ height:this.actionBarHeight }]}></View>):(
+            actionVisible?(
+                <Animated.View style={[Styles.iconRow,{ height:height-5 }]}>
+                    {renderTools? renderTools(this._renderTools()):this._renderTools() }
+                </Animated.View>
+            ):null
+        );
     }
 
     onHeightChange() {
@@ -569,8 +600,7 @@ export default class InputToolbar extends React.Component {
      */
     _renderSendButton() {
         const {focused, value} = this.state;
-
-        return ((focused && value.length > 0) && Platform.OS === 'android') ? (
+        return ((focused && value.length > 0) ) ? (
             <TouchableOpacity style={{alignSelf:"stretch",justifyContent:"center",paddingRight:8}}
                               onPress={this.handleSend.bind(this)}>
                 <Text style={Styles.sendText}>{'发送'}</Text>

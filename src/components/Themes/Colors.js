@@ -46,7 +46,7 @@ const colors = {
   white1: 'rgba(250, 251, 252, 1)',
   orangeRed: 'rgba(255, 59, 48, 1)',
   coolGrey190: 'rgba(190, 190, 190, 1)',
-  textRed: 'rgba(0, 186, 110, 1)',
+  textRed: '#238dfa',
   paleGreyTwo: 'rgba(236, 239, 241, 1)',
   messageSelf: 'rgba(0, 186, 110, 1)',
   emojiBackground: '#e8ebef'
