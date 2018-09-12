@@ -21,6 +21,8 @@
 ![UI展示效果4](./src/screenshot/ios-4.jpg)
 ![UI展示效果4](./src/screenshot/ios-5.jpg)
 ![UI展示效果4](./src/screenshot/ios-6.jpg)
+![UI展示效果4](./src/screenshot/ios-8.jpg)
+![UI展示效果4](./src/screenshot/ios-9.jpg)
 
 
 
