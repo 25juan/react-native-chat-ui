@@ -403,21 +403,21 @@ export default class InputToolbar extends React.Component {
             (
                 <View key={"camera"} style={{alignItems:"center",marginRight:20}}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleCameraPicker.bind(this)}>
-                        <Image resizeMode={"contain"} style={style}  source={require("./Images/iconCamera.png")}/>
+                        <Image resizeMode={"contain"} style={style}  source={require("./Images/camera.png")}/>
                     </TouchableOpacity>
                     <Text style={{marginTop:6, fontSize:12}}>拍照</Text>
                 </View>
             ),(
                 <View key={"photo"} style={{alignItems:"center",marginRight:20}}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleImagePicker.bind(this)}>
-                        <Image resizeMode={"contain"} style={style} source={require("./Images/iconImage.png")}/>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/image.png")}/>
                     </TouchableOpacity>
                     <Text style={{marginTop:6, fontSize:12}}>相册</Text>
                 </View>
             ),(
                 <View key={"location"} style={{alignItems:"center"}}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleLocationClick.bind(this)}>
-                        <Image resizeMode={"contain"} style={style} source={require("./Images/iconLocation.png")}/>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/map-pin.png")}/>
                     </TouchableOpacity>
                     <Text style={{marginTop:6, fontSize:12}}>位置</Text>
                 </View>
