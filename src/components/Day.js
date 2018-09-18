@@ -67,7 +67,7 @@ Day.propTypes = {
   isSameDay: PropTypes.func,
   currentMessage: PropTypes.object,
   previousMessage: PropTypes.object,
-  containerStyle: View.propTypes.style,
-  wrapperStyle: View.propTypes.style,
-  textStyle: Text.propTypes.style,
+  containerStyle: PropTypes.object,
+  wrapperStyle: PropTypes.object,
+  textStyle: PropTypes.object,
 };

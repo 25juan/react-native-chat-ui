@@ -100,15 +100,15 @@ MessageText.propTypes = {
   position: PropTypes.oneOf(['left', 'right']),
   currentMessage: PropTypes.object,
   containerStyle: PropTypes.shape({
-    left: View.propTypes.style,
-    right: View.propTypes.style,
+    left: PropTypes.object,
+    right: PropTypes.object,
   }),
   textStyle: PropTypes.shape({
-    left: Text.propTypes.style,
-    right: Text.propTypes.style,
+    left: PropTypes.object,
+    right: PropTypes.object,
   }),
   linkStyle: PropTypes.shape({
-    left: Text.propTypes.style,
-    right: Text.propTypes.style,
+    left: PropTypes.object,
+    right: PropTypes.object,
   }),
 };
