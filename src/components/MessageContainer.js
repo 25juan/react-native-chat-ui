@@ -118,10 +118,11 @@ export default class MessageContainer extends React.Component {
     refresh = ()=>{
         if(typeof this.props.onLoadMoreAsync === "function"){
             this.setState({ refreshing:true }) ;
-            this.props.onLoadMoreAsync().then(()=>{
+            this.props.onLoadMoreAsync(()=>{
                 this.setState({ refreshing:false }) ;
             });
         }
+
     };
     /**
      * 列表滑动到底部

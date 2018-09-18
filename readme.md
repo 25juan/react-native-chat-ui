@@ -72,7 +72,7 @@ import Chat,{ MessageList,MessageInput } from "./react-native-chatui" ;
 | isShowIncomingDisplayName |显示对方的用户名|  boolean | true |
 | isShowOutgoingDisplayName |显示自己的用户名|  boolean | false |
 | renderMessage|自定义消息渲染 |    function   |   (messageProps)=>{} |
-| onLoadMore|下拉加载更多的回调函数 |    function   |   (message)=>{} |
+| onLoadMoreAsync|下拉加载更多的回调函数,请在合适的时机执行callback 函数 |    function   |   (callback)=>{} |
 | onMessagePress|点击消息事件 |    function   |   (message)=>{} |
 | onFailPress|消息发送失败红色感叹号点击事件 |    function   |   (message)=>{} |
 | onMessageLongPress|消息长按事件 |    function   |   (message)=>{} |
