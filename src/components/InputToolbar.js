@@ -385,7 +385,7 @@ export default class InputToolbar extends React.Component {
                     alwaysBounceHorizontal={true}
                     showsHorizontalScrollIndicator={false}
                     data={emojis }
-                    keyExtractor = { (item,index)=>index }
+                    keyExtractor = { (item,index)=>`${index}` }
                     renderItem={({ item,index })=>this.renderImoji(item,index,rowIconNum)}
                 />
                 <View style={{height:35,flexDirection:'row'}}>
