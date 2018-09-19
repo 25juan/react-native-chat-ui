@@ -9,6 +9,7 @@ import shallowequal from '../utils/showEqual';
 import LoadEarlier from './LoadEarlier';
 import PropTypes from 'prop-types';
 import Message from './Message';
+import _ from "lodash" ;
 
 export default class MessageContainer extends React.Component {
     constructor(props) {
@@ -118,20 +119,23 @@ export default class MessageContainer extends React.Component {
     refresh = ()=>{
         if(typeof this.props.onLoadMoreAsync === "function"){
             this.setState({ refreshing:true }) ;
-            this.props.onLoadMoreAsync(()=>{
+            this.props.onLoadMoreAsync().then(()=>{
                 this.setState({ refreshing:false }) ;
             });
         }
-
     };
+    isScrollBottom = true ;
+    componentDidUpdate(){
+        if(this.isScrollBottom){
+            this.scrollToBottom()
+        }
+    }
     /**
      * 列表滑动到底部
      */
     scrollToBottom(){
         if(this.flatList){
-            setTimeout(()=>{ //此处延迟执行是为了防止数据未渲染完成导致滚动到底失败
-                this.flatList.scrollToEnd();
-            },1000);
+            this.flatList.scrollToEnd();
         }
     }
     /**
@@ -149,6 +153,7 @@ export default class MessageContainer extends React.Component {
         if(!messages){
             return ;
         }
+        this.isScrollBottom = false ;
         this.messages = JSON.parse(JSON.stringify([ ...messages,...this.messages ]));
         this.setState({
             messagesData: JSON.parse(JSON.stringify(this.messages))
@@ -162,11 +167,10 @@ export default class MessageContainer extends React.Component {
         if(!messages){
             return ;
         }
+        this.isScrollBottom = true ;
         this.messages = JSON.parse(JSON.stringify([ ...this.messages,...messages ]));
         this.setState({
             messagesData: JSON.parse(JSON.stringify(this.messages))
-        },()=>{
-            this.scrollToBottom();
         });
     }
     /**
@@ -178,9 +182,12 @@ export default class MessageContainer extends React.Component {
         }
         let messagesData = JSON.parse(JSON.stringify(this.messages)) ;
         let _list = messagesData.map((message)=>{
-
             if(message.msgId === msg.msgId){
                 return { ...message,...msg }
+            }else {
+                if (message.msgType === "voice"){
+                    message.playing = false ;
+                }
             }
             return message ;
         });
@@ -209,8 +216,8 @@ export default class MessageContainer extends React.Component {
         return (
             <View style={{flex:1}} { ...this.response }>
                 <FlatList
-                    keyboardShouldPersistTaps="never"
-                    keyboardDismissMode={"on-drag"}
+                    keyboardDismissMode={"none"}
+                    keyboardShouldPersistTaps={"never"}
                     automaticallyAdjustContentInsets={false}
                     ref={ (flatList)=>this.flatList=  flatList  }
                     keyExtractor={this._keyExtractor}

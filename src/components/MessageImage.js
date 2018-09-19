@@ -39,6 +39,6 @@ MessageImage.defaultProps = {
 
 MessageImage.propTypes = {
   currentMessage: PropTypes.object,
-  containerStyle: PropTypes.object,
-  imageStyle: PropTypes.object,
+  containerStyle: View.propTypes.style,
+  imageStyle: Image.propTypes.style,
 };

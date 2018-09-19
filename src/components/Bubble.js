@@ -305,11 +305,11 @@ Bubble.propTypes = {
     nextMessage: PropTypes.object,
     previousMessage: PropTypes.object,
     containerStyle: PropTypes.shape({
-        left: PropTypes.object,
-        right: PropTypes.object,
+        left: View.propTypes.style,
+        right: View.propTypes.style,
     }),
     wrapperStyle: PropTypes.shape({
-        left: PropTypes.object,
-        right: PropTypes.object,
+        left: View.propTypes.style,
+        right: View.propTypes.style,
     }),
 };

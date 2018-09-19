@@ -140,7 +140,7 @@ Message.propTypes = {
     previousMessage: PropTypes.object,
     user: PropTypes.object,
     containerStyle: PropTypes.shape({
-        left: PropTypes.object,
-        right: PropTypes.object,
+        left: View.propTypes.style,
+        right: View.propTypes.style,
     }),
 };

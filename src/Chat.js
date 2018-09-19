@@ -86,8 +86,8 @@ export default class Chat extends Component {
             this.input.dismiss();
         }
     }
-    onLoadMoreAsync = (callback)=>{
-        this.props.onLoadMoreAsync(callback);
+    onLoadMoreAsync = ()=>{
+        this.props.onLoadMoreAsync();
     };
     renderLoadEarlier = ()=>{  };
     onHeightChange = (height)=>{ this.props.onHeightChange(height); };

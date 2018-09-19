@@ -66,5 +66,5 @@ Composer.propTypes = {
   placeholderTextColor: PropTypes.string,
   textInputProps: PropTypes.object,
   multiline: PropTypes.bool,
-  textInputStyle: PropTypes.object,
+  textInputStyle: TextInput.propTypes.style,
 };

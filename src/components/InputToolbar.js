@@ -90,13 +90,12 @@ export default class InputToolbar extends React.Component {
      * 重置关闭表情选择和工具选择
      */
     dismiss() {
-
         const {isEmoji, actionVisible} = this.state;
         this.setState({
             isEmoji: false,
             actionVisible: false,
         },()=>{
-            Keyboard.dismiss();
+
         });
         Animated.timing(
             this.state.actionAnim,
@@ -385,7 +384,7 @@ export default class InputToolbar extends React.Component {
                     alwaysBounceHorizontal={true}
                     showsHorizontalScrollIndicator={false}
                     data={emojis }
-                    keyExtractor = { (item,index)=>`${index}` }
+                    keyExtractor = { (item,index)=>index }
                     renderItem={({ item,index })=>this.renderImoji(item,index,rowIconNum)}
                 />
                 <View style={{height:35,flexDirection:'row'}}>
@@ -403,21 +402,21 @@ export default class InputToolbar extends React.Component {
             (
                 <View key={"camera"} style={{alignItems:"center",marginRight:20}}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleCameraPicker.bind(this)}>
-                        <Image resizeMode={"contain"} style={style}  source={require("./Images/camera.png")}/>
+                        <Image resizeMode={"contain"} style={style}  source={require("./Images/iconCamera.png")}/>
                     </TouchableOpacity>
                     <Text style={{marginTop:6, fontSize:12}}>拍照</Text>
                 </View>
             ),(
                 <View key={"photo"} style={{alignItems:"center",marginRight:20}}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleImagePicker.bind(this)}>
-                        <Image resizeMode={"contain"} style={style} source={require("./Images/image.png")}/>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/iconImage.png")}/>
                     </TouchableOpacity>
                     <Text style={{marginTop:6, fontSize:12}}>相册</Text>
                 </View>
             ),(
                 <View key={"location"} style={{alignItems:"center"}}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleLocationClick.bind(this)}>
-                        <Image resizeMode={"contain"} style={style} source={require("./Images/map-pin.png")}/>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/iconLocation.png")}/>
                     </TouchableOpacity>
                     <Text style={{marginTop:6, fontSize:12}}>位置</Text>
                 </View>

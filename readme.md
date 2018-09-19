@@ -29,27 +29,6 @@
 #### 安装
 `npm install git+https://github.com/25juan/react-native-chat-ui.git --save`
 
-#### 配置GIF支持
-`cmd` 进入`android`目录下,
-运行一下命令`gradlew -q app:dependencies`，查看当前RN 的`com.facebook.fresco:fresco:1.3.0`依赖版本是多少，
-然后你需要在`android/app/build.gradle`文件中根据需要手动添加以下面的模块,具体的版本号要和上面的查询出来的版本号相对应
-```java
-dependencies {
-  // 如果你需要支持Android4.0(API level 14)之前的版本
-  compile 'com.facebook.fresco:animated-base-support:1.3.0' //  
-
-  // 如果你需要支持GIF动图
-  compile 'com.facebook.fresco:animated-gif:1.3.0'
-
-  // 如果你需要支持WebP格式，包括WebP动图
-  compile 'com.facebook.fresco:animated-webp:1.3.0'
-  compile 'com.facebook.fresco:webpsupport:1.3.0'
-
-  // 如果只需要支持WebP格式而不需要动图
-  compile 'com.facebook.fresco:webpsupport:1.3.0'
-}
-```
-
 #### 使用方法
 ```
 import Chat,{ MessageList,MessageInput } from "./react-native-chatui" ;
