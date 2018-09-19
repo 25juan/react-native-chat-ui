@@ -70,6 +70,6 @@ Avatar.propTypes = {
     position: PropTypes.oneOf(['left', 'right']),
     currentMessage: PropTypes.object,
     nextMessage: PropTypes.object,
-    containerStyle: View.propTypes.style,
-    imageStyle: PropTypes.oneOfType([View.propTypes.style, Image.propTypes.style]),
+    containerStyle: PropTypes.object,
+    imageStyle: PropTypes.object,
 };

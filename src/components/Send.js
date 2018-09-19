@@ -52,6 +52,6 @@ Send.propTypes = {
   text: PropTypes.string,
   onSend: PropTypes.func,
   label: PropTypes.string,
-  containerStyle: View.propTypes.style,
-  textStyle: Text.propTypes.style,
+  containerStyle: PropTypes.object,
+  textStyle: PropTypes.object,
 };
