@@ -132,7 +132,7 @@ export default class Chat extends Component {
                               onSend={ this.onSend }/>
                 <RecordMask  show={ this.state.show }
                              text={ this.state.text }
-                             color={ this.state.color }/>
+                             textStyle={ { backgroundColor:this.state.color } }/>
             </View>
         );
     }

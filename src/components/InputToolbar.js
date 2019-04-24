@@ -337,8 +337,8 @@ export default class InputToolbar extends React.Component {
                                 rows.map((item,id)=>{
                                     return (
                                         item === backspace?(
-                                            <TouchableOpacity key={_.uniqueId("row")} onPress={this.handleEmojiCancel.bind(this)}>
-                                                <Image style={{height:35,width:35}} source={require("./Images/backspace.png")}/>
+                                            <TouchableOpacity style={Styles.iconTouch} key={_.uniqueId("row")} onPress={this.handleEmojiCancel.bind(this)}>
+                                                <Image style={{height:30,width:30}} source={require("./Images/backspace.png")}/>
                                             </TouchableOpacity>
                                         ):(
                                             item==="{{emtype_str}}"?(
@@ -346,7 +346,7 @@ export default class InputToolbar extends React.Component {
                                                         <Text style={[Styles.emoji]}><Emoji name={ "cow2" }/></Text>
                                                     </View>
                                                 ):(
-                                                <TouchableOpacity key={_.uniqueId("row")} onPress={() => {
+                                                <TouchableOpacity style={Styles.iconTouch}  key={_.uniqueId("row")} onPress={() => {
                                                     this.handleEmojiClick(emojiUtils.get(item))
                                                 }}>
                                                     <Text style={[Styles.emoji]}><Emoji name={ item }/></Text>
@@ -398,25 +398,33 @@ export default class InputToolbar extends React.Component {
     }
     _renderTools = ()=>{
         let style= {height:40,width:40};
+        let itemStyle = {
+            alignItems:"center",
+            paddingLeft:10,
+            paddingRight:10,
+            paddingTop:5,
+            paddingBottom:5,
+            width:100,
+        }
         return [
             (
-                <View key={"camera"} style={{alignItems:"center",marginRight:20}}>
+                <View key={"camera"} style={itemStyle}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleCameraPicker.bind(this)}>
-                        <Image resizeMode={"contain"} style={style}  source={require("./Images/iconCamera.png")}/>
+                        <Image resizeMode={"contain"} style={style}  source={require("./Images/camera.png")}/>
                     </TouchableOpacity>
                     <Text style={{marginTop:6, fontSize:12}}>拍照</Text>
                 </View>
             ),(
-                <View key={"photo"} style={{alignItems:"center",marginRight:20}}>
+                <View key={"photo"} style={itemStyle}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleImagePicker.bind(this)}>
-                        <Image resizeMode={"contain"} style={style} source={require("./Images/iconImage.png")}/>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/image.png")}/>
                     </TouchableOpacity>
                     <Text style={{marginTop:6, fontSize:12}}>相册</Text>
                 </View>
             ),(
-                <View key={"location"} style={{alignItems:"center"}}>
+                <View key={"location"} style={itemStyle}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleLocationClick.bind(this)}>
-                        <Image resizeMode={"contain"} style={style} source={require("./Images/iconLocation.png")}/>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/pin.png")}/>
                     </TouchableOpacity>
                     <Text style={{marginTop:6, fontSize:12}}>位置</Text>
                 </View>
@@ -472,7 +480,7 @@ export default class InputToolbar extends React.Component {
             <View style={[Styles.inputRow, {height:height}]}>
                 <TouchableOpacity style={{alignSelf:"stretch",justifyContent:"center",paddingLeft:8}}
                                   onPress={this.handleRecordMode.bind(this)}>
-                    <Image source={require('./Images/chatBar_record.png')}/>
+                    <Image style={{height:30,width:30}} source={require('./Images/chatBar_record.png')}/>
                 </TouchableOpacity>
 
                 <View style={Styles.searchRow}>
@@ -547,7 +555,7 @@ export default class InputToolbar extends React.Component {
             <View style={[Styles.inputRow, {height:height}]}>
                 <TouchableOpacity style={{alignSelf:"stretch",justifyContent:"center", paddingLeft:8}}
                                   onPress={this.handleTextMode.bind(this)}>
-                    <Image source={require('./Images/chatBar_keyboard.png')}/>
+                    <Image style={{height:30,width:30}} source={require('./Images/chatBar_keyboard.png')}/>
                 </TouchableOpacity>
 
                 <View style={[Styles.searchRow, {padding:4}]}>
@@ -585,7 +593,7 @@ export default class InputToolbar extends React.Component {
                                       justifyContent:"center"}}
                               onPress={this.handleEmojiOpen.bind(this)}>
                 {
-                    isEmoji ? <Image source={require('./Images/chatBar_keyboard.png')}/>
+                    isEmoji ? <Image style={{height:30,width:30}} source={require('./Images/chatBar_keyboard.png')}/>
                         : <Image style={{height:30,width:30}}  source={require('./Images/iconEmoji.png')}/>
                 }
             </TouchableOpacity>
