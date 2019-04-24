@@ -58,7 +58,7 @@ export default class InputToolbar extends React.Component {
     }
 
     componentWillMount(){
-        Platform.OS === "ios" && this.removeKeyboardListener(); 
+        Platform.OS === "ios" && this.removeKeyboardListener();
     }
     componentWillUnmount(){
         Platform.OS === "ios" && this.removeKeyboardListener();
@@ -136,7 +136,7 @@ export default class InputToolbar extends React.Component {
                 this.state.actionAnim,
                 {toValue: 0}
             ).start();
-            
+
             this.setState({ actionVisible: false, isEmoji: false });
             return;
         }
@@ -342,10 +342,10 @@ export default class InputToolbar extends React.Component {
                                             </TouchableOpacity>
                                         ):(
                                             item==="{{emtype_str}}"?(
-                                                    <View style={{ opacity:0 }} key={_.uniqueId("row")}>
-                                                        <Text style={[Styles.emoji]}><Emoji name={ "cow2" }/></Text>
-                                                    </View>
-                                                ):(
+                                                <View style={{ opacity:0 }} key={_.uniqueId("row")}>
+                                                    <Text style={[Styles.emoji]}><Emoji name={ "cow2" }/></Text>
+                                                </View>
+                                            ):(
                                                 <TouchableOpacity style={Styles.iconTouch}  key={_.uniqueId("row")} onPress={() => {
                                                     this.handleEmojiClick(emojiUtils.get(item))
                                                 }}>
@@ -378,22 +378,23 @@ export default class InputToolbar extends React.Component {
         }
         emojis = _.chunk(emoji.emojis,pageNum) ;
         return <Animated.View style={[Styles.emojiRow,{width:width,height:EMOJI_HEIGHT}]}>
-                <FlatList
-                    pagingEnabled={ true }
-                    horizontal={true}
-                    alwaysBounceHorizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    data={emojis }
-                    keyExtractor = { (item,index)=>`${index}` }
-                    renderItem={({ item,index })=>this.renderImoji(item,index,rowIconNum)}
-                />
-                <View style={{height:35,flexDirection:'row'}}>
-                    <View style={{flex:1}}></View>
-                    <TouchableOpacity onPress={()=>this.handleSend()}
-                                    style={{backgroundColor:'#d82614',justifyContent:'center',alignItems:'center',width:55}}>
-                        <Text style={{color:'#fff'}}>发送</Text>
-                    </TouchableOpacity>
-                </View>
+            <FlatList
+                pagingEnabled={ true }
+                horizontal={true}
+                alwaysBounceHorizontal={true}
+                showsHorizontalScrollIndicator={false}
+                data={emojis }
+                initialNumToRender={2}
+                keyExtractor = { (item,index)=>`${index}` }
+                renderItem={({ item,index })=>this.renderImoji(item,index,rowIconNum)}
+            />
+            <View style={{height:35,flexDirection:'row'}}>
+                <View style={{flex:1}}></View>
+                <TouchableOpacity onPress={()=>this.handleSend()}
+                                  style={{backgroundColor:'#d82614',justifyContent:'center',alignItems:'center',width:55}}>
+                    <Text style={{color:'#fff'}}>发送</Text>
+                </TouchableOpacity>
+            </View>
         </Animated.View>
     }
     _renderTools = ()=>{
@@ -563,11 +564,11 @@ export default class InputToolbar extends React.Component {
                         ref="record"
                         {...responder}
                         style={{flex:1,
-                        justifyContent:'center',
-                        alignItems:'center',
-                        borderRadius:5,
-                        backgroundColor:this.state.opacity,
-                        borderWidth:1,borderColor:'#f2f2f2'
+                            justifyContent:'center',
+                            alignItems:'center',
+                            borderRadius:5,
+                            backgroundColor:this.state.opacity,
+                            borderWidth:1,borderColor:'#f2f2f2'
                         }}
                         onLayout={this.handleLayout.bind(this)}>
                         <Text>按住 说话</Text>
@@ -588,9 +589,9 @@ export default class InputToolbar extends React.Component {
         const {isEmoji} = this.state;
         return (
             <TouchableOpacity style={{paddingLeft:5,
-                                      paddingRight:5,
-                                      alignSelf:"stretch",
-                                      justifyContent:"center"}}
+                paddingRight:5,
+                alignSelf:"stretch",
+                justifyContent:"center"}}
                               onPress={this.handleEmojiOpen.bind(this)}>
                 {
                     isEmoji ? <Image style={{height:30,width:30}} source={require('./Images/chatBar_keyboard.png')}/>
@@ -616,7 +617,7 @@ export default class InputToolbar extends React.Component {
         ) : (
             <TouchableOpacity style={{alignSelf:"stretch",justifyContent:"center",paddingRight:8}}
                               onPress={this.onActionsPress.bind(this)}>
-               <Image style={{height:30,width:30}}  source={require('./Images/add.png')}/>
+                <Image style={{height:30,width:30}}  source={require('./Images/add.png')}/>
             </TouchableOpacity>
         );
     }
