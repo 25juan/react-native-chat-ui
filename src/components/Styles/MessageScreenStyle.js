@@ -22,6 +22,7 @@ export default create({
         backgroundColor: Colors.white1,
         justifyContent: 'center',
         alignItems:"center",
+        marginBottom: 10
     },
     iconRow: {
         flexDirection: 'row',

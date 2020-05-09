@@ -13,9 +13,9 @@ import {
 } from 'react-native';
 import Emoji from 'react-native-emoji'
 import Styles from './Styles/MessageScreenStyle';
-import PropTypes from "prop-types" ;
-import spliddit from "../utils/spliddit" ;
-import _ from "lodash" ;
+import PropTypes from "prop-types";
+import spliddit from "../utils/spliddit";
+import _ from "lodash";
 var emojiUtils = require('node-emoji')
 var emoji = require("./emoji");
 const MODE_TEXT = "mode_text"; // 文本输入模式
@@ -49,7 +49,7 @@ export default class InputToolbar extends React.Component {
             isEmoji: false,
             value: '',
             actionVisible: false,
-            shimVisible:false, // ios软键盘弹出的垫子,只有ios 需要特殊处理
+            shimVisible: false, // ios软键盘弹出的垫子,只有ios 需要特殊处理
             actionAnim: new Animated.Value(0)
         };
 
@@ -57,49 +57,49 @@ export default class InputToolbar extends React.Component {
         this.actionBarHeight = 0;
     }
 
-    componentWillMount(){
+    componentWillMount() {
         Platform.OS === "ios" && this.removeKeyboardListener();
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         Platform.OS === "ios" && this.removeKeyboardListener();
     }
-    componentDidMount(){
+    componentDidMount() {
         Platform.OS === "ios" && this.addKeyboardListener();
     }
-    removeKeyboardListener(){
+    removeKeyboardListener() {
         Keyboard.removeAllListeners("keyboardDidShow");
         Keyboard.removeAllListeners("keyboardDidHide");
     }
-    addKeyboardListener(){
-        Keyboard.addListener("keyboardDidShow",(e)=>{
-            let keyboardHeight = e.startCoordinates.height ; // 获取键盘高度
-            this.actionBarHeight = keyboardHeight ;
-            this.setState({
-                shimVisible:true
-            });
-        });
-        Keyboard.addListener("keyboardDidHide",(e)=>{ // 关闭软件盘时重置参数
-            this.actionBarHeight = 0 ;
-            this.setState({
-                shimVisible:false
-            })
-        });
+    addKeyboardListener() {
+        // Keyboard.addListener("keyboardDidShow", (e) => {
+        //     let keyboardHeight = e.startCoordinates.height; // 获取键盘高度
+        //     this.actionBarHeight = keyboardHeight;
+        //     this.setState({
+        //         shimVisible: true
+        //     });
+        // });
+        // Keyboard.addListener("keyboardDidHide", (e) => { // 关闭软件盘时重置参数
+        //     this.actionBarHeight = 0;
+        //     this.setState({
+        //         shimVisible: false
+        //     })
+        // });
     }
 
     /**
      * 重置关闭表情选择和工具选择
      */
     dismiss() {
-        const {isEmoji, actionVisible} = this.state;
+        const { isEmoji, actionVisible } = this.state;
         this.setState({
             isEmoji: false,
             actionVisible: false,
-        },()=>{
+        }, () => {
 
         });
         Animated.timing(
             this.state.actionAnim,
-            {toValue: 0}
+            { toValue: 0 }
         ).start();
 
         if (isEmoji || actionVisible) {
@@ -113,13 +113,13 @@ export default class InputToolbar extends React.Component {
      * 发送点击事件
      */
     handleSend() {
-        if(this.state.value){ // 判断消息是否存在
+        if (this.state.value) { // 判断消息是否存在
             this.props.onSend(this.state.value);
             if (this.composerHeight != MIN_COMPOSER_HEIGHT) {
                 this.composerHeight = MIN_COMPOSER_HEIGHT;
                 this.onHeightChange();
             }
-            this.setState({value: ''});
+            this.setState({ value: '' });
         }
     }
 
@@ -134,7 +134,7 @@ export default class InputToolbar extends React.Component {
             }
             Animated.timing(
                 this.state.actionAnim,
-                {toValue: 0}
+                { toValue: 0 }
             ).start();
 
             this.setState({ actionVisible: false, isEmoji: false });
@@ -144,13 +144,13 @@ export default class InputToolbar extends React.Component {
             this.search.blur();
         }
         actionVisible = !actionVisible;
-        this.setState({actionVisible: actionVisible, isEmoji: false});
+        this.setState({ actionVisible: actionVisible, isEmoji: false });
         if (actionVisible) {
             this.onHeightChange();
         }
         Animated.timing(
             this.state.actionAnim,
-            {toValue: 1}
+            { toValue: 1 }
         ).start();
     }
 
@@ -180,7 +180,7 @@ export default class InputToolbar extends React.Component {
         });
         Animated.timing(          // Uses easing functions
             this.state.actionAnim,    // The value to drive
-            {toValue: 1}           // Configuration
+            { toValue: 1 }           // Configuration
         ).start();
     }
 
@@ -221,7 +221,7 @@ export default class InputToolbar extends React.Component {
         });
         Animated.timing(
             this.state.actionAnim,
-            {toValue: 1}
+            { toValue: 1 }
         ).start();
     }
 
@@ -229,7 +229,7 @@ export default class InputToolbar extends React.Component {
      * 输入框失去焦点事件
      */
     handleBlurSearch() {
-        this.setState({focused: false});
+        this.setState({ focused: false });
     }
 
     /**
@@ -238,12 +238,12 @@ export default class InputToolbar extends React.Component {
      */
     handleChangeText(v) {
         if (v.length > 0 && v[v.length - 1] == '\n') {
-            this.props.onSend(v.slice(0,v.length - 1)); // 去除\n
+            this.props.onSend(v.slice(0, v.length - 1)); // 去除\n
             if (this.composerHeight != MIN_COMPOSER_HEIGHT) {
                 this.composerHeight = MIN_COMPOSER_HEIGHT;
                 this.onHeightChange();
             }
-            this.setState({value: ''});
+            this.setState({ value: '' });
         } else {
             this.setState({
                 value: v,
@@ -296,7 +296,7 @@ export default class InputToolbar extends React.Component {
      * 录音按钮点击事件
      */
     handleRecordMode() {
-        const {isEmoji, actionVisible} = this.state;
+        const { isEmoji, actionVisible } = this.state;
         if (this.state.mode == MODE_RECORD) {
             return;
         }
@@ -316,42 +316,42 @@ export default class InputToolbar extends React.Component {
         if (this.state.mode == MODE_TEXT) {
             return;
         }
-        this.setState({mode: MODE_TEXT, focused: true,});
+        this.setState({ mode: MODE_TEXT, focused: true, });
     }
-    renderImoji = (item,index,rowIconNum)=>{
-        let emojis = _.chunk(item,rowIconNum) ;
-        let backspace = "{{backspace}}" ;
-        emojis.map(row=>{
-            if(row.length !== rowIconNum){
-                row.push(backspace) ;
+    renderImoji = (item, index, rowIconNum) => {
+        let emojis = _.chunk(item, rowIconNum);
+        let backspace = "{{backspace}}";
+        emojis.map(row => {
+            if (row.length !== rowIconNum) {
+                row.push(backspace);
             }
-            return row ;
+            return row;
         });
 
         return (
-            <View key={index} style={[Styles.slide,{width:width,height:EMOJI_HEIGHT-35}]}>
+            <View key={index} style={[Styles.slide, { width: width, height: EMOJI_HEIGHT - 35 }]}>
                 {
-                    emojis.map((rows,index)=>(
+                    emojis.map((rows, index) => (
                         <View key={`${index}`} style={Styles.slideRow}>
                             {
-                                rows.map((item,id)=>{
+                                rows.map((item, id) => {
                                     return (
-                                        item === backspace?(
+                                        item === backspace ? (
                                             <TouchableOpacity style={Styles.iconTouch} key={_.uniqueId("row")} onPress={this.handleEmojiCancel.bind(this)}>
-                                                <Image style={{height:30,width:30}} source={require("./Images/backspace.png")}/>
+                                                <Image style={{ height: 30, width: 30 }} source={require("./Images/backspace.png")} />
                                             </TouchableOpacity>
-                                        ):(
-                                            item==="{{emtype_str}}"?(
-                                                <View style={{ opacity:0 }} key={_.uniqueId("row")}>
-                                                    <Text style={[Styles.emoji]}><Emoji name={ "cow2" }/></Text>
-                                                </View>
-                                            ):(
-                                                <TouchableOpacity style={Styles.iconTouch}  key={_.uniqueId("row")} onPress={() => {
-                                                    this.handleEmojiClick(emojiUtils.get(item))
-                                                }}>
-                                                    <Text style={[Styles.emoji]}><Emoji name={ item }/></Text>
-                                                </TouchableOpacity>
-                                            ))
+                                        ) : (
+                                                item === "{{emtype_str}}" ? (
+                                                    <View style={{ opacity: 0 }} key={_.uniqueId("row")}>
+                                                        <Text style={[Styles.emoji]}><Emoji name={"cow2"} /></Text>
+                                                    </View>
+                                                ) : (
+                                                        <TouchableOpacity style={Styles.iconTouch} key={_.uniqueId("row")} onPress={() => {
+                                                            this.handleEmojiClick(emojiUtils.get(item))
+                                                        }}>
+                                                            <Text style={[Styles.emoji]}><Emoji name={item} /></Text>
+                                                        </TouchableOpacity>
+                                                    ))
                                     )
                                 })
                             }
@@ -366,68 +366,68 @@ export default class InputToolbar extends React.Component {
      * @private
      */
     _renderEmoji() {
-        let { renderEmoji } = this.props ;
-        const {isEmoji, focused} = this.state;
+        let { renderEmoji } = this.props;
+        const { isEmoji, focused } = this.state;
         const emojiStyle = [];
-        let emojis =  renderEmoji(emoji.emojis) ;
+        let emojis = renderEmoji(emoji.emojis);
         const rowIconNum = 7;
-        const pageNum = 20 ;
-        let pages = Math.ceil(emojis.length/pageNum) ;
-        for(let start =emojis.length ,end = pages*pageNum; start<end ;start++){
-            emojis[start] = "{{emtype_str}}" ;
+        const pageNum = 20;
+        let pages = Math.ceil(emojis.length / pageNum);
+        for (let start = emojis.length, end = pages * pageNum; start < end; start++) {
+            emojis[start] = "{{emtype_str}}";
         }
-        emojis = _.chunk(emoji.emojis,pageNum) ;
-        return <Animated.View style={[Styles.emojiRow,{width:width,height:EMOJI_HEIGHT}]}>
+        emojis = _.chunk(emoji.emojis, pageNum);
+        return <Animated.View style={[Styles.emojiRow, { width: width, height: EMOJI_HEIGHT }]}>
             <FlatList
-                pagingEnabled={ true }
+                pagingEnabled={true}
                 horizontal={true}
                 alwaysBounceHorizontal={true}
                 showsHorizontalScrollIndicator={false}
-                data={emojis }
+                data={emojis}
                 initialNumToRender={2}
-                keyExtractor = { (item,index)=>`${index}` }
-                renderItem={({ item,index })=>this.renderImoji(item,index,rowIconNum)}
+                keyExtractor={(item, index) => `${index}`}
+                renderItem={({ item, index }) => this.renderImoji(item, index, rowIconNum)}
             />
-            <View style={{height:35,flexDirection:'row'}}>
-                <View style={{flex:1}}></View>
-                <TouchableOpacity onPress={()=>this.handleSend()}
-                                  style={{backgroundColor:'#d82614',justifyContent:'center',alignItems:'center',width:55}}>
-                    <Text style={{color:'#fff'}}>发送</Text>
+            <View style={{ height: 35, flexDirection: 'row' }}>
+                <View style={{ flex: 1 }}></View>
+                <TouchableOpacity onPress={() => this.handleSend()}
+                    style={{ backgroundColor: '#d82614', justifyContent: 'center', alignItems: 'center', width: 55 }}>
+                    <Text style={{ color: '#fff' }}>发送</Text>
                 </TouchableOpacity>
             </View>
         </Animated.View>
     }
-    _renderTools = ()=>{
-        let style= {height:40,width:40};
+    _renderTools = () => {
+        let style = { height: 40, width: 40 };
         let itemStyle = {
-            alignItems:"center",
-            paddingLeft:10,
-            paddingRight:10,
-            paddingTop:5,
-            paddingBottom:5,
-            width:100,
+            alignItems: "center",
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: 5,
+            paddingBottom: 5,
+            width: 100,
         }
         return [
             (
                 <View key={"camera"} style={itemStyle}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleCameraPicker.bind(this)}>
-                        <Image resizeMode={"contain"} style={style}  source={require("./Images/camera.png")}/>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/camera.png")} />
                     </TouchableOpacity>
-                    <Text style={{marginTop:6, fontSize:12}}>拍照</Text>
+                    <Text style={{ marginTop: 6, fontSize: 12 }}>拍照</Text>
                 </View>
-            ),(
+            ), (
                 <View key={"photo"} style={itemStyle}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleImagePicker.bind(this)}>
-                        <Image resizeMode={"contain"} style={style} source={require("./Images/image.png")}/>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/image.png")} />
                     </TouchableOpacity>
-                    <Text style={{marginTop:6, fontSize:12}}>相册</Text>
+                    <Text style={{ marginTop: 6, fontSize: 12 }}>相册</Text>
                 </View>
-            ),(
+            ), (
                 <View key={"location"} style={itemStyle}>
                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleLocationClick.bind(this)}>
-                        <Image resizeMode={"contain"} style={style} source={require("./Images/pin.png")}/>
+                        <Image resizeMode={"contain"} style={style} source={require("./Images/pin.png")} />
                     </TouchableOpacity>
-                    <Text style={{marginTop:6, fontSize:12}}>位置</Text>
+                    <Text style={{ marginTop: 6, fontSize: 12 }}>位置</Text>
                 </View>
             )
         ];
@@ -438,21 +438,21 @@ export default class InputToolbar extends React.Component {
      * @private
      */
     _renderActions() {
-        let { renderTools } = this.props ;
-        let { shimVisible, actionVisible } = this.state ; // 如果当前是软键盘弹出则添加一个垫子，防止输入框被键盘遮住
-        let height = actionVisible?ACTION_BUTTON_HEIGHT:0;
-        return shimVisible?(<View style={[Styles.iconRow,{ height:this.actionBarHeight }]}></View>):(
-            actionVisible?(
-                <Animated.View style={[Styles.iconRow,{ height:height-5 }]}>
-                    {renderTools? renderTools(this._renderTools()):this._renderTools() }
+        let { renderTools } = this.props;
+        let { shimVisible, actionVisible } = this.state; // 如果当前是软键盘弹出则添加一个垫子，防止输入框被键盘遮住
+        let height = actionVisible ? ACTION_BUTTON_HEIGHT : 0;
+        return shimVisible ? (<View style={[Styles.iconRow, { height: this.actionBarHeight }]}></View>) : (
+            actionVisible ? (
+                <Animated.View style={[Styles.iconRow, { height: height - 5 }]}>
+                    {renderTools ? renderTools(this._renderTools()) : this._renderTools()}
                 </Animated.View>
-            ):null
+            ) : null
         );
     }
 
     onHeightChange() {
         var h = this.composerHeight + (MIN_INPUT_TOOLBAR_HEIGHT - MIN_COMPOSER_HEIGHT) + this.actionBarHeight;
-        if(typeof this.props.onHeightChange === "function"){
+        if (typeof this.props.onHeightChange === "function") {
             this.props.onHeightChange(h);
         }
     }
@@ -475,19 +475,19 @@ export default class InputToolbar extends React.Component {
      * @returns {XML}
      */
     renderTextInput() {
-        const {value = '' } = this.state;
+        const { value = '' } = this.state;
         var height = this.composerHeight + (MIN_INPUT_TOOLBAR_HEIGHT - MIN_COMPOSER_HEIGHT);
         return (
-            <View style={[Styles.inputRow, {height:height}]}>
-                <TouchableOpacity style={{alignSelf:"stretch",justifyContent:"center",paddingLeft:8}}
-                                  onPress={this.handleRecordMode.bind(this)}>
-                    <Image style={{height:30,width:30}} source={require('./Images/chatBar_record.png')}/>
+            <View style={[Styles.inputRow, { height: height }]}>
+                <TouchableOpacity style={{ alignSelf: "stretch", justifyContent: "center", paddingLeft: 8 }}
+                    onPress={this.handleRecordMode.bind(this)}>
+                    <Image style={{ height: 30, width: 30 }} source={require('./Images/chatBar_record.png')} />
                 </TouchableOpacity>
 
                 <View style={Styles.searchRow}>
                     <TextInput
-                        ref={(search)=> {this.search = search} }
-                        style={[Styles.searchInput, {height: this.composerHeight}]}
+                        ref={(search) => { this.search = search }}
+                        style={[Styles.searchInput, { height: this.composerHeight }]}
                         value={value}
                         autoFocus={this.state.focused}
                         editable={true}
@@ -503,8 +503,8 @@ export default class InputToolbar extends React.Component {
                         underlineColorAndroid='transparent'
                     />
                 </View>
-                { this._renderEmojiButton() }
-                { this._renderSendButton() }
+                {this._renderEmojiButton()}
+                {this._renderSendButton()}
             </View>
         );
     }
@@ -522,7 +522,7 @@ export default class InputToolbar extends React.Component {
             onStartShouldSetResponder: (evt) => true,
             onMoveShouldSetResponder: (evt) => true,
             onResponderGrant: (evt) => {
-                this.setState({opacity: "#c9c9c9"});
+                this.setState({ opacity: "#c9c9c9" });
                 this.props.startRecording();
             },
             onResponderReject: (evt) => {
@@ -536,7 +536,7 @@ export default class InputToolbar extends React.Component {
                 }
             },
             onResponderRelease: (evt) => {
-                this.setState({opacity: "#fff"});
+                this.setState({ opacity: "#fff" });
                 var canceled;
                 if (evt.nativeEvent.locationY < 0 ||
                     evt.nativeEvent.pageY < this.recordPageY) {
@@ -553,29 +553,30 @@ export default class InputToolbar extends React.Component {
 
         };
         return (
-            <View style={[Styles.inputRow, {height:height}]}>
-                <TouchableOpacity style={{alignSelf:"stretch",justifyContent:"center", paddingLeft:8}}
-                                  onPress={this.handleTextMode.bind(this)}>
-                    <Image style={{height:30,width:30}} source={require('./Images/chatBar_keyboard.png')}/>
+            <View style={[Styles.inputRow, { height: height }]}>
+                <TouchableOpacity style={{ alignSelf: "stretch", justifyContent: "center", paddingLeft: 8 }}
+                    onPress={this.handleTextMode.bind(this)}>
+                    <Image style={{ height: 30, width: 30 }} source={require('./Images/chatBar_keyboard.png')} />
                 </TouchableOpacity>
 
-                <View style={[Styles.searchRow, {padding:4}]}>
+                <View style={[Styles.searchRow, { padding: 4 }]}>
                     <View
                         ref="record"
                         {...responder}
-                        style={{flex:1,
-                            justifyContent:'center',
-                            alignItems:'center',
-                            borderRadius:5,
-                            backgroundColor:this.state.opacity,
-                            borderWidth:1,borderColor:'#f2f2f2'
+                        style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 5,
+                            backgroundColor: this.state.opacity,
+                            borderWidth: 1, borderColor: '#f2f2f2'
                         }}
                         onLayout={this.handleLayout.bind(this)}>
                         <Text>按住 说话</Text>
                     </View>
                 </View>
-                { this._renderEmojiButton() }
-                { this._renderSendButton() }
+                {this._renderEmojiButton()}
+                {this._renderSendButton()}
             </View>
         );
     }
@@ -586,16 +587,18 @@ export default class InputToolbar extends React.Component {
      * @private
      */
     _renderEmojiButton() {
-        const {isEmoji} = this.state;
+        const { isEmoji } = this.state;
         return (
-            <TouchableOpacity style={{paddingLeft:5,
-                paddingRight:5,
-                alignSelf:"stretch",
-                justifyContent:"center"}}
-                              onPress={this.handleEmojiOpen.bind(this)}>
+            <TouchableOpacity style={{
+                paddingLeft: 5,
+                paddingRight: 5,
+                alignSelf: "stretch",
+                justifyContent: "center"
+            }}
+                onPress={this.handleEmojiOpen.bind(this)}>
                 {
-                    isEmoji ? <Image style={{height:30,width:30}} source={require('./Images/chatBar_keyboard.png')}/>
-                        : <Image style={{height:30,width:30}}  source={require('./Images/iconEmoji.png')}/>
+                    isEmoji ? <Image style={{ height: 30, width: 30 }} source={require('./Images/chatBar_keyboard.png')} />
+                        : <Image style={{ height: 30, width: 30 }} source={require('./Images/iconEmoji.png')} />
                 }
             </TouchableOpacity>
         )
@@ -607,56 +610,56 @@ export default class InputToolbar extends React.Component {
      * @private
      */
     _renderSendButton() {
-        const {focused, value} = this.state;
-        return ((focused && value.length > 0) ) ? (
-            <TouchableOpacity style={{alignSelf:"stretch",justifyContent:"center",paddingRight:8}}
-                              onPress={this.handleSend.bind(this)}>
+        const { focused, value } = this.state;
+        return ((focused && value.length > 0)) ? (
+            <TouchableOpacity style={{ alignSelf: "stretch", justifyContent: "center", paddingRight: 8 }}
+                onPress={this.handleSend.bind(this)}>
                 <Text style={Styles.sendText}>{'发送'}</Text>
             </TouchableOpacity>
 
         ) : (
-            <TouchableOpacity style={{alignSelf:"stretch",justifyContent:"center",paddingRight:8}}
-                              onPress={this.onActionsPress.bind(this)}>
-                <Image style={{height:30,width:30}}  source={require('./Images/add.png')}/>
-            </TouchableOpacity>
-        );
+                <TouchableOpacity style={{ alignSelf: "stretch", justifyContent: "center", paddingRight: 8 }}
+                    onPress={this.onActionsPress.bind(this)}>
+                    <Image style={{ height: 30, width: 30 }} source={require('./Images/add.png')} />
+                </TouchableOpacity>
+            );
     }
 
 
     render() {
-        const {　isEmoji, mode　} = this.state;
+        const { isEmoji, mode } = this.state;
         return (
             <View style={Styles.search}>
                 {mode == MODE_TEXT ? this.renderTextInput() : this.renderReocrdInput()}
-                <View style={{flexGrow:1, height:1, backgroundColor:"lightgray"}}/>
+                <View style={{ flexGrow: 1, height: 1, backgroundColor: "lightgray" }} />
                 {isEmoji ? this._renderEmoji() : this._renderActions()}
             </View>
         )
     }
 }
 InputToolbar.propTypes = {
-    startRecording:PropTypes.func.isRequired,
-    handleImagePicker:PropTypes.func.isRequired,
-    handleCameraPicker:PropTypes.func.isRequired,
-    handleLocationClick:PropTypes.func.isRequired,
-    stopRecording:PropTypes.func.isRequired,
-    onEndReachedRecording:PropTypes.func.isRequired, // 手指滑动到取消发送的距离的时候
-    onReachedRecording:PropTypes.func.isRequired, //手指为滑动到取消发送的距离的时候
-    onSend:PropTypes.func.isRequired, // 发送按钮点击发送消息事件
-    onHeightChange:PropTypes.func.isRequired, // 输入框的高度发生变化的时候所触发的事件
-    renderEmoji:PropTypes.func,
+    startRecording: PropTypes.func.isRequired,
+    handleImagePicker: PropTypes.func.isRequired,
+    handleCameraPicker: PropTypes.func.isRequired,
+    handleLocationClick: PropTypes.func.isRequired,
+    stopRecording: PropTypes.func.isRequired,
+    onEndReachedRecording: PropTypes.func.isRequired, // 手指滑动到取消发送的距离的时候
+    onReachedRecording: PropTypes.func.isRequired, //手指为滑动到取消发送的距离的时候
+    onSend: PropTypes.func.isRequired, // 发送按钮点击发送消息事件
+    onHeightChange: PropTypes.func.isRequired, // 输入框的高度发生变化的时候所触发的事件
+    renderEmoji: PropTypes.func,
 
 };
 InputToolbar.defaultProps = {
-    handleImagePicker:()=>{},
-    handleCameraPicker:()=>{},
-    handleLocationClick:()=>{},
-    startRecording:()=>{},
-    stopRecording:()=>{},
-    onEndReachedRecording:()=>{}, // 手指滑动到取消发送的距离的时候
-    onReachedRecording:()=>{},//手指为滑动到取消发送的距离的时候
-    onSend:()=>{},
-    onHeightChange:()=>{},
-    renderEmoji:(emojis)=>emojis
+    handleImagePicker: () => { },
+    handleCameraPicker: () => { },
+    handleLocationClick: () => { },
+    startRecording: () => { },
+    stopRecording: () => { },
+    onEndReachedRecording: () => { }, // 手指滑动到取消发送的距离的时候
+    onReachedRecording: () => { },//手指为滑动到取消发送的距离的时候
+    onSend: () => { },
+    onHeightChange: () => { },
+    renderEmoji: (emojis) => emojis
 };
 
