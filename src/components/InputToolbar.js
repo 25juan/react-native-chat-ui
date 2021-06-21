@@ -422,13 +422,14 @@ export default class InputToolbar extends React.Component {
                     </TouchableOpacity>
                     <Text style={{marginTop:6, fontSize:12}}>相册</Text>
                 </View>
-            ),(
-                <View key={"location"} style={itemStyle}>
-                    <TouchableOpacity style={Styles.iconTouch} onPress={this.handleLocationClick.bind(this)}>
-                        <Image resizeMode={"contain"} style={style} source={require("./Images/pin.png")}/>
-                    </TouchableOpacity>
-                    <Text style={{marginTop:6, fontSize:12}}>位置</Text>
-                </View>
+            )
+//             ,(
+//                 <View key={"location"} style={itemStyle}>
+//                     <TouchableOpacity style={Styles.iconTouch} onPress={this.handleLocationClick.bind(this)}>
+//                         <Image resizeMode={"contain"} style={style} source={require("./Images/pin.png")}/>
+//                     </TouchableOpacity>
+//                     <Text style={{marginTop:6, fontSize:12}}>位置</Text>
+//                 </View>
             )
         ];
     }
