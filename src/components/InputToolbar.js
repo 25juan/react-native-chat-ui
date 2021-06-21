@@ -430,7 +430,7 @@ export default class InputToolbar extends React.Component {
 //                     </TouchableOpacity>
 //                     <Text style={{marginTop:6, fontSize:12}}>位置</Text>
 //                 </View>
-            )
+//             )
         ];
     }
     /**
