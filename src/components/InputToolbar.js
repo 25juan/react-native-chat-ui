@@ -61,7 +61,13 @@ export default class InputToolbar extends React.Component {
     //     Platform.OS === "ios" && this.removeKeyboardListener();
     // }
     componentWillUnmount() {
-        Platform.OS === "ios" && this.removeKeyboardListener();
+        if (Platform.OS === "ios") {
+            let keyboardDidHide = Keyboard.listenerCount("keyboardDidHide");
+            let keyboardDidShow = Keyboard.listenerCount("keyboardDidShow");
+            if (keyboardDidHide > 0 || keyboardDidShow > 0) {
+                this.removeKeyboardListener()
+            }
+        }
     }
     componentDidMount() {
         Platform.OS === "ios" && this.addKeyboardListener();
@@ -340,18 +346,21 @@ export default class InputToolbar extends React.Component {
                                             <TouchableOpacity style={Styles.iconTouch} key={_.uniqueId("row")} onPress={this.handleEmojiCancel.bind(this)}>
                                                 <Image style={{ height: 30, width: 30 }} source={require("./Images/backspace.png")} />
                                             </TouchableOpacity>
-                                        ) : (
-                                            item === "{{emtype_str}}" ? (
-                                                <View style={{ opacity: 0 }} key={_.uniqueId("row")}>
-                                                    <Text style={[Styles.emoji]}><Emoji name={"cow2"} /></Text>
-                                                </View>
-                                            ) : (
-                                                <TouchableOpacity style={Styles.iconTouch} key={_.uniqueId("row")} onPress={() => {
-                                                    this.handleEmojiClick(emojiUtils.get(item))
-                                                }}>
-                                                    <Text style={[Styles.emoji]}><Emoji name={item} /></Text>
-                                                </TouchableOpacity>
-                                            ))
+                                        )
+                                            : (
+                                                item === "{{emtype_str}}" ? (
+                                                    <View style={{ opacity: 0 }} key={_.uniqueId("row")}>
+                                                        <Text style={[Styles.emoji]}><Emoji name={"cow2"} /></Text>
+                                                    </View>
+                                                )
+                                                    : (
+                                                        <TouchableOpacity style={Styles.iconTouch} key={_.uniqueId("row")} onPress={() => {
+                                                            this.handleEmojiClick(emojiUtils.get(item))
+                                                        }}>
+                                                            <Text style={[Styles.emoji]}><Emoji name={item} /></Text>
+                                                        </TouchableOpacity>
+                                                    )
+                                            )
                                     )
                                 })
                             }
@@ -504,7 +513,7 @@ export default class InputToolbar extends React.Component {
                         underlineColorAndroid='transparent'
                     />
                 </View>
-                {this._renderEmojiButton()}
+                {/* {this._renderEmojiButton()} */}
                 {this._renderSendButton()}
             </View>
         );
