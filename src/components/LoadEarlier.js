@@ -9,6 +9,12 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 export default class LoadEarlier extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      show: 'flex'
+    }
+  }
   renderLoading() {
     if (this.props.isLoadingEarlier === false) {
       return (
@@ -20,8 +26,8 @@ export default class LoadEarlier extends React.Component {
     return (
       <View>
         <Text style={[styles.text, this.props.earlierTextStyle, {
-            opacity: 0,
-          }]}>
+          opacity: 0,
+        }]}>
           {this.props.label}
         </Text>
         <ActivityIndicator
@@ -35,10 +41,13 @@ export default class LoadEarlier extends React.Component {
   render() {
     return (
       <TouchableOpacity
-        style={[styles.container, this.props.earlierContainerStyle]}
+        style={[styles.container, this.props.earlierContainerStyle, { display: this.state.show }]}
         onPress={() => {
           if (this.props.onLoadMoreAsync) {
             this.props.onLoadMoreAsync();
+            this.setState({
+              show: 'none'
+            })
           }
         }}
         disabled={this.props.isLoadingEarlier === true}
@@ -80,12 +89,12 @@ const styles = StyleSheet.create({
 });
 
 LoadEarlier.defaultProps = {
-  onLoadEarlier: () => {},
+  onLoadEarlier: () => { },
   isLoadingEarlier: false,
   label: '查看历史消息',
-    earlierContainerStyle: {},
+  earlierContainerStyle: {},
   earlierWrapperStyle: {},
-    earlierTextStyle: {},
+  earlierTextStyle: {},
   activityIndicatorStyle: {},
 };
 
