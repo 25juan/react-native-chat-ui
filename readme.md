@@ -27,7 +27,7 @@
 
 
 #### 安装
-`npm install git+https://github.com/25juan/react-native-chat-ui.git --save`
+`npm install git+https://github.com/HenryHeisenberg/react-native-chat-ui.git --save`
 
 #### 使用方法
 ```
